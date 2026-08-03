@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dream Ledger Admin — Control Panel</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet" />
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<style>
+/* ============================================================
+   LUXELIVING ADMIN — STANDALONE CONTROL PANEL
+   Manages: images, text, prices, data, contact details & more.
+   Shares LocalStorage with index.html (same origin).
+============================================================ */
+:root{
+  --gold:#c5a059;--gold-soft:#e3cfa8;--gold-deep:#8a6d2f;
+  --ink:#0b0c15;--paper:#0f1018;--card:#121420;--surface:#181a28;
+  --border:rgba(255,255,255,0.08);--border-strong:rgba(255,255,255,0.14);
+  --text:#f2f0e6;--text-dim:#b0a99e;--text-ghost:#6e675c;
+  --shadow-sm:0 2px 12px rgba(0,0,0,0.35);
+  --shadow-md:0 16px 48px rgba(0,0,0,0.45),0 1px 3px rgba(0,0,0,0.3);
+  --shadow-lg:0 30px 80px rgba(0,0,0,0.55),0 0 0 1px rgba(255,255,255,0.04);
+  --radius:20px;--radius-sm:12px;
+  --font-body:'Poppins',sans-serif;--font-display:'Playfair Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--ink);color:var(--text);min-height:100vh;line-height:1.55}
+::selection{background:rgba(197,160,89,.25);color:#fff}
+img{max-width:100%;display:block}
+a{text-decoration:none}
+
+/* ---------- LOGIN SCREEN ---------- */
+.login-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(1200px 600px at 20% 10%,rgba(197,160,89,.12),transparent),radial-gradient(900px 500px at 90% 90%,rgba(74,58,20,.25),transparent),var(--ink)}
+.login-card{width:100%;max-width:420px;background:rgba(18,20,32,.85);backdrop-filter:blur(24px);border:1px solid var(--border-strong);border-radius:24px;padding:40px;box-shadow:var(--shadow-lg);animation:slideUp .45s ease}
+.login-logo{font-family:var(--font-display);font-size:1.8rem;color:#fff;text-align:center;margin-bottom:4px}
+.login-logo span{color:var(--gold);font-style:italic}
+.login-sub{text-align:center;color:var(--text-dim);font-size:.88rem;margin-bottom:28px}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* ---------- APP SHELL ---------- */
+#adminApp{display:none}
+#adminApp.visible{display:block}
+.shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+@media(max-width:1024px){.shell{grid-template-columns:1fr}}
+.sidebar{background:linear-gradient(180deg,#121420,#141628);border-right:1px solid var(--border);padding:24px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+@media(max-width:1024px){.sidebar{position:static;height:auto}}
+.side-logo{font-family:var(--font-display);font-size:1.35rem;color:#fff;margin-bottom:26px;display:flex;align-items:center;gap:10px}
+.side-logo img{height:36px;width:auto;border-radius:8px}
+.side-logo span{color:var(--gold);font-style:italic}
+.admin-nav{list-style:none;display:flex;flex-direction:column;gap:2px;flex:1}
+.admin-nav a{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:var(--text-dim);font-weight:500;font-size:.9rem;transition:.2s;cursor:pointer}
+.admin-nav a:hover{background:rgba(255,255,255,.06);color:#fff}
+.admin-nav a.active{background:linear-gradient(135deg,rgba(197,160,89,.2),rgba(197,160,89,.05));color:var(--gold);border:1px solid rgba(197,160,89,.25)}
+.admin-nav a i{width:20px;text-align:center;color:var(--gold)}
+.admin-nav a.logout{color:#e74c3c;margin-top:10px}
+.admin-nav a.logout i{color:#e74c3c}
+.side-foot{font-size:.75rem;color:var(--text-ghost);padding-top:14px;border-top:1px solid var(--border);margin-top:12px}
+.main{background:var(--paper);padding:34px;min-height:100vh}
+@media(max-width:720px){.main{padding:18px}}
+
+/* ---------- TOP BAR ---------- */
+.topbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:26px}
+.topbar h1{font-family:var(--font-display);font-size:1.9rem;color:#fff}
+.topbar .crumb{color:var(--gold);font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.top-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ---------- CARDS / STATS ---------- */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:linear-gradient(160deg,var(--surface),var(--card));border:1px solid var(--border);border-radius:16px;padding:22px;transition:.25s}
+.stat-card:hover{border-color:rgba(197,160,89,.4);transform:translateY(-4px)}
+.stat-card .sc-icon{width:44px;height:44px;border-radius:12px;background:rgba(197,160,89,.15);color:var(--gold);display:inline-flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:12px}
+.stat-card h3{font-family:var(--font-display);font-size:1.9rem;color:#fff;margin-bottom:4px}
+.stat-card p{font-size:.84rem;color:var(--text-dim)}
+.panel-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:26px}
+.panel-card h3{font-family:var(--font-display);font-size:1.1rem;color:#fff;margin-bottom:16px}
+
+/* ---------- TABLES ---------- */
+.table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+thead th{background:rgba(255,255,255,.05);color:var(--text-dim);font-weight:600;text-align:left;padding:13px 14px;border-bottom:1px solid var(--border);font-size:.78rem;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+tbody td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:#ddd;vertical-align:middle}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+.table-btn{padding:6px 12px;border-radius:6px;font-size:.78rem;font-weight:600;border:none;cursor:pointer;transition:.2s;display:inline-block;font-family:inherit}
+.btn-sm-green{background:#2d7a4d;color:#fff}
+.btn-sm-red{background:#8a2d3d;color:#fff}
+.btn-sm-amber{background:rgba(197,160,89,.18);color:var(--gold);border:1px solid rgba(197,160,89,.3)}
+.table-btn:hover{filter:brightness(1.2)}
+.thumb{width:62px;height:62px;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
+
+/* ---------- BUTTONS ---------- */
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#0b0c15;border:none;padding:12px 24px;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;transition:.25s;font-family:inherit}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(197,160,89,.35)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);color:#fff;border:1px solid rgba(255,255,255,.14);padding:12px 24px;border-radius:10px;font-weight:600;font-size:.9rem;cursor:pointer;transition:.2s;font-family:inherit}
+.btn-secondary:hover{background:rgba(255,255,255,.13)}
+
+/* ---------- FORMS ---------- */
+.admin-form{display:flex;flex-direction:column;gap:2px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.form-row{grid-template-columns:1fr}}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-weight:500;font-size:.82rem;color:var(--text-dim);margin-bottom:6px}
+.form-group input,.form-group select,.admin-form textarea{width:100%;padding:11px 14px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;font-family:inherit;font-size:.9rem;outline:none;transition:.2s}
+.form-group input:focus,.form-group select:focus,.admin-form textarea:focus{border-color:var(--gold);background:rgba(255,255,255,.1)}
+.admin-form textarea{resize:vertical}
+.form-section-title{font-family:var(--font-display);font-size:1.05rem;color:var(--gold);margin:26px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.form-section-title:first-child{margin-top:0}
+.upload-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 14px;border-radius:8px;background:rgba(197,160,89,.15);border:1px dashed rgba(197,160,89,.5);color:var(--gold);font-size:.8rem;font-weight:600;cursor:pointer;transition:.2s}
+.upload-btn:hover{background:rgba(197,160,89,.28);border-style:solid}
+
+/* ---------- MEDIA MANAGER ---------- */
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.media-item{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:.25s}
+.media-item:hover{border-color:rgba(197,160,89,.45);transform:translateY(-4px)}
+.media-item img{width:100%;height:140px;object-fit:cover}
+.media-item input{width:100%;padding:7px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;font-size:.72rem;font-family:inherit;margin-bottom:6px}
+
+/* ---------- CARDS GRID (agents, testimonials) ---------- */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+
+/* ---------- TOAST ---------- */
+.toast{position:fixed;bottom:28px;right:28px;z-index:3000;background:linear-gradient(135deg,var(--surface),var(--card));border:1px solid var(--border-strong);color:#fff;padding:15px 24px;border-radius:14px;box-shadow:var(--shadow-lg);font-weight:600;display:flex;align-items:center;gap:12px;transform:translateY(130%);opacity:0;transition:all .4s ease;font-size:.92rem;max-width:420px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast i{color:var(--gold)}
+.toast.error i{color:#e74c3c}
+
+.search-input{width:100%;max-width:420px;padding:12px 16px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;font-family:inherit;margin-bottom:16px;outline:none}
+@media(max-width:900px){.dash-cols{grid-template-columns:1fr !important}}
+.search-input:focus{border-color:var(--gold)}
+.badge-pill{display:inline-block;padding:4px 10px;border-radius:50px;font-size:.72rem;font-weight:700;background:rgba(255,255,255,.08);border:1px solid var(--border)}
+.badge-gold{background:rgba(197,160,89,.2);color:var(--gold);border-color:rgba(197,160,89,.3)}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<!-- ===================== LOGIN SCREEN ===================== -->
+<div id="adminLogin" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo" id="loginLogo">Luxe<span>Admin</span></div>
+    <div class="login-sub">Control panel — manage everything on LuxeLiving</div>
+    <form onsubmit="doLogin(event)">
+      <div class="form-group"><label for="aUser">Username</label><input id="aUser" type="text" value="admin" autocomplete="username" /></div>
+      <div class="form-group"><label for="aPass">Password</label><input id="aPass" type="password" value="admin123" autocomplete="current-password" /></div>
+      <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:14px">Login to Dashboard</button>
+      <p style="margin-top:14px;text-align:center;color:var(--text-ghost);font-size:.8rem">Demo credentials: <strong style="color:var(--gold)">admin / admin123</strong></p>
+      <p style="margin-top:8px;text-align:center"><a href="index.html" style="color:var(--text-dim);font-size:.82rem"><i class="fa-solid fa-arrow-left"></i> Back to Website</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== ADMIN APP ===================== -->
+<div id="adminApp">
+  <div class="shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="side-logo" id="sideLogo">Luxe<span>Admin</span></div>
+      <ul class="admin-nav">
+        <li><a onclick="go('dashboard')" data-tab="dashboard" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+        <li><a onclick="go('properties')" data-tab="properties"><i class="fa-solid fa-building"></i> Properties</a></li>
+        <li><a onclick="go('add')" data-tab="add"><i class="fa-solid fa-plus-circle"></i> Add Property</a></li>
+        <li><a onclick="go('agents')" data-tab="agents"><i class="fa-solid fa-user-tie"></i> Agents</a></li>
+        <li><a onclick="go('media')" data-tab="media"><i class="fa-solid fa-images"></i> Media / Images</a></li>
+        <li><a onclick="go('users')" data-tab="users"><i class="fa-solid fa-users"></i> Users</a></li>
+        <li><a onclick="go('requests')" data-tab="requests"><i class="fa-solid fa-envelope"></i> Contact Requests</a></li>
+        <li><a onclick="go('testimonials')" data-tab="testimonials"><i class="fa-solid fa-comment-dots"></i> Testimonials</a></li>
+        <li><a onclick="go('settings')" data-tab="settings"><i class="fa-solid fa-gear"></i> Settings</a></li>
+        <li><a onclick="go('reset')" data-tab="reset"><i class="fa-solid fa-rotate-left"></i> Reset Demo Data</a></li>
+        <li><a href="index.html" target="_blank"><i class="fa-solid fa-globe"></i> View Website</a></li>
+        <li><a class="logout" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+      </ul>
+      <div class="side-foot"><i class="fa-solid fa-database"></i> LocalStorage CMS<br/>Changes appear instantly on the public site.</div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" id="adminMain"></main>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg">Done</span></div>
+
+<script>
+/* ============================================================
+   SHARED LOCALSTORAGE DATABASE (same keys as index.html)
+============================================================ */
+function ls(key,val){
+  try{
+    if(val===undefined)return JSON.parse(localStorage.getItem(key)||'null');
+    localStorage.setItem(key,JSON.stringify(val));
+  }catch(e){console.error('Storage error:',e);showToast('Storage full — use image URLs instead of uploads.','error');}
+  return val;
+}
+
+/* ---------- SEED DATA (identical to index.html) ---------- */
+const IMAGES=[
+  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600649681315-6204b2a4b1e5?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?q=80&w=2074&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2070&auto=format&fit=crop"
+];
+const CITIES=["Mumbai","Delhi","Bangalore","Hyderabad","Chennai","Pune","Kolkata","Jaipur","Ahmedabad","Lucknow"];
+const OWNERS=[
+  {name:"Raj Mehta",email:"raj@luxeliving.in",phone:"9876543210",whatsapp:"9876543210",agency:"Luxe Properties",address:"Mumbai"},
+  {name:"Sneha Rao",email:"sneha@luxeliving.in",phone:"9876543211",whatsapp:"9876543211",agency:"Golden Keys",address:"Bangalore"},
+  {name:"Vikram Das",email:"vikram@luxeliving.in",phone:"9876543212",whatsapp:"9876543212",agency:"Urban Estates",address:"Delhi"},
+  {name:"Aisha Khan",email:"aisha@luxeliving.in",phone:"9876543213",whatsapp:"9876543213",agency:"Vista Homes",address:"Hyderabad"},
+  {name:"Arun Sharma",email:"arun@luxeliving.in",phone:"9876543214",whatsapp:"9876543214",agency:"Royal Realty",address:"Chennai"},
+  {name:"Meera Patel",email:"meera@luxeliving.in",phone:"9876543215",whatsapp:"9876543215",agency:"Prime Homes",address:"Pune"},
+  {name:"Jitesh Nair",email:"jitesh@luxeliving.in",phone:"9876543216",whatsapp:"9876543216",agency:"Skyline Group",address:"Kolkata"},
+  {name:"Rita Sen",email:"rita@luxeliving.in",phone:"9876543217",whatsapp:"9876543217",agency:"Heritage Homes",address:"Jaipur"},
+  {name:"Kiran Babu",email:"kiran@luxeliving.in",phone:"9876543218",whatsapp:"9876543218",agency:"Metro Estates",address:"Ahmedabad"},
+  {name:"Neha Gupta",email:"neha@luxeliving.in",phone:"9876543219",whatsapp:"9876543219",agency:"Silver Nest",address:"Lucknow"}
+];
+const AGENTS=[
+  {name:"Amit Verma",role:"Senior Consultant",img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop",bio:"Specializes in luxury apartments and commercial spaces.",phone:"+91 98765 40001",whatsapp:"919876540001",email:"amit@luxeliving.in"},
+  {name:"Priya Nanda",role:"Property Advisor",img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2070&auto=format&fit=crop",bio:"Expert in villas and independent houses across South India.",phone:"+91 98765 40002",whatsapp:"919876540002",email:"priya@luxeliving.in"},
+  {name:"Rohit Bose",role:"Market Analyst",img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=2070&auto=format&fit=crop",bio:"Data-driven insights for smart investments.",phone:"+91 98765 40003",whatsapp:"919876540003",email:"rohit@luxeliving.in"},
+  {name:"Divya Reddy",role:"Broker",img:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop",bio:"Handles high-value transactions with discretion.",phone:"+91 98765 40004",whatsapp:"919876540004",email:"divya@luxeliving.in"}
+];
+const TESTIMONIALS=[
+  {name:"Anjali Mehta",city:"Mumbai",text:"LuxeLiving made finding our dream home effortless. The listings were accurate and the owner responses were instant.",rating:5,img:"https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop"},
+  {name:"Rahul Joshi",city:"Delhi",text:"The mortgage calculator and detailed property pages saved us hours of research. Highly recommended.",rating:5,img:"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop"},
+  {name:"Kiran Rao",city:"Bangalore",text:"We loved the smooth experience and our agent was exceptional.",rating:5,img:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop"},
+  {name:"Sophia Lin",city:"Chennai",text:"Good prices, verified owners, and beautiful cards. I'll be recommending this to everyone.",rating:4,img:"https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200&auto=format&fit=crop"}
+];
+
+function stateFor(city){const m={Mumbai:"Maharashtra",Delhi:"Delhi",Bangalore:"Karnataka",Hyderabad:"Telangana",Chennai:"Tamil Nadu",Pune:"Maharashtra",Kolkata:"West Bengal",Jaipur:"Rajasthan",Ahmedabad:"Gujarat",Lucknow:"Uttar Pradesh"};return m[city]||"India";}
+
+function generateProperties(){
+  const types=["Apartment","Villa","House","Flat","Bungalow","Commercial","Land","Plot","Farm House","Office","Shop","Warehouse"];
+  const purposes=["Buy","Rent"];
+  const amenities=["Gym","Pool","Parking","Garden","Security","Lift","Power Backup","Clubhouse","Wifi","Play Area","CCTV"];
+  const ownerPics=["https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop","https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=200&auto=format&fit=crop","https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop","https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"];
+  const props=[];
+  for(let i=1;i<=50;i++){
+    const city=CITIES[(i-1)%CITIES.length];
+    const type=types[i%types.length];
+    const purpose=purposes[i%2];
+    const ownerBase=OWNERS[i%OWNERS.length];
+    const owner={...ownerBase,img:ownerPics[i%ownerPics.length]};
+    const beds=Math.floor(Math.random()*5)+1;
+    const baths=Math.floor(Math.random()*3)+1;
+    const area=Math.floor(Math.random()*3000)+800;
+    const price=(purpose==="Buy")?(Math.floor(Math.random()*12)+2)*10000000:(Math.floor(Math.random()*80)+15)*10000;
+    const status=i%7===0?"Sold":(i%5===0?"Rented":"Available");
+    const rating=(Math.random()*1.5+3.5).toFixed(1);
+    props.push({id:i,title:`Premium ${type} in ${city}`,description:"A premium, well-ventilated residence with premium fittings, spacious rooms and excellent connectivity.",type,city,state:stateFor(city),location:`${city}, ${stateFor(city)}`,address:`${Math.floor(Math.random()*999)+1} ${city} Road`,purpose,status,price,bedrooms:beds,bathrooms:baths,kitchen:1,balcony:1,area,parking:Math.floor(Math.random()*3)+1,floor:"Ground",yearBuilt:2018+Math.floor(Math.random()*6),rating:Number(rating),featured:i<=6,owner,mainImage:IMAGES[i%IMAGES.length],gallery:[IMAGES[(i+2)%IMAGES.length],IMAGES[(i+5)%IMAGES.length],IMAGES[(i+7)%IMAGES.length]],amenities:amenities.sort(()=>Math.random()-.5).slice(0,6),nearby:{school:"Green Valley School",hospital:"Apollo Hospital",metro:"Metro Station",market:"Local Market"},lat:18.9+Math.random()*.4,long:72.8+Math.random()*.4,created:Date.now()-(i*86400000),views:Math.floor(Math.random()*12000)+400});
+  }
+  return props;
+}
+
+function initDB(){
+  if(!ls('estate_properties'))ls('estate_properties',generateProperties());
+  if(!ls('estate_users'))ls('estate_users',[{id:1,name:"Alex Patel",email:"alex@example.com",phone:"9876543210",password:"123456",role:"user",img:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop",favourites:[],visited:[1,3,7],created:Date.now()}]);
+  if(!ls('estate_agents'))ls('estate_agents',AGENTS);
+  if(!ls('estate_testimonials'))ls('estate_testimonials',TESTIMONIALS);
+  if(!ls('estate_favourites'))ls('estate_favourites',{});
+  if(!ls('estate_contacts'))ls('estate_contacts',[]);
+  if(!ls('estate_visits'))ls('estate_visits',[]);
+  if(!ls('estate_settings'))ls('estate_settings',{
+    siteName:"LuxeLiving",logoText:"Luxe",logoAccent:"Living",logoImage:"",
+    email:"hello@luxeliving.in",phone:"+91 98765 43210",whatsapp:"919876543210",
+    address:"42 Premium Tower, Bandra West, Mumbai, Maharashtra 400050",
+    facebook:"#",instagram:"#",linkedin:"#",twitter:"#",
+    heroImage:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
+    heroTitle:"Discover Luxury Living Beyond Imagination",
+    heroSubtitle:"Browse curated premium properties — from modern apartments to heritage villas — with instant contact, virtual tours, and verified owners.",
+    ownerFallbackImage:"https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop",
+    footerAbout:"India's premium destination for luxury properties. Verified listings, expert agents, and elegant tools."
+  });
+  if(!ls('estate_admin'))ls('estate_admin',{loggedIn:false});
+}
+const DB={
+  props:()=>ls('estate_properties')||[],
+  saveProps:v=>ls('estate_properties',v),
+  agents:()=>ls('estate_agents')||[],
+  saveAgents:v=>ls('estate_agents',v),
+  testis:()=>ls('estate_testimonials')||[],
+  saveTestis:v=>ls('estate_testimonials',v),
+  settings:()=>ls('estate_settings')||{},
+  saveSettings:v=>ls('estate_settings',v)
+};
+
+/* ============================================================
+   AUTH
+============================================================ */
+function ensureAuth(){
+  const adm=ls('estate_admin')||{};
+  if(adm.loggedIn){document.getElementById('adminLogin').style.display='none';document.getElementById('adminApp').classList.add('visible');go('dashboard');}
+  else{document.getElementById('adminLogin').style.display='flex';document.getElementById('adminApp').classList.remove('visible');}
+}
+function doLogin(e){
+  e.preventDefault();
+  const u=document.getElementById('aUser').value.trim();
+  const p=document.getElementById('aPass').value;
+  if(u==='admin'&&p==='admin123'){
+    ls('estate_admin',{loggedIn:true});
+    showToast('Welcome back, Admin');
+    ensureAuth();
+  }else showToast('Invalid admin credentials','error');
+}
+function logout(){
+  ls('estate_admin',{loggedIn:false});
+  showToast('Logged out');
+  ensureAuth();
+}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+let currentTab='dashboard';
+function go(tab){
+  currentTab=tab;
+  document.querySelectorAll('.admin-nav a[data-tab]').forEach(a=>a.classList.toggle('active',a.getAttribute('data-tab')===tab));
+  renderPanel();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderPanel(){
+  const main=document.getElementById('adminMain');
+  if(currentTab==='dashboard')main.innerHTML=renderDashboard();
+  else if(currentTab==='properties')main.innerHTML=renderProperties();
+  else if(currentTab==='add'){main.innerHTML=propertyFormHTML(null);initFormImagePreviews();}
+  else if(currentTab==='agents')main.innerHTML=renderAgents();
+  else if(currentTab==='media'){main.innerHTML=renderMedia();initFormImagePreviews();}
+  else if(currentTab==='users')main.innerHTML=renderUsers();
+  else if(currentTab==='requests')main.innerHTML=renderRequests();
+  else if(currentTab==='testimonials')main.innerHTML=renderTestimonials();
+  else if(currentTab==='settings'){main.innerHTML=renderSettings();initFormImagePreviews();}
+  else if(currentTab==='reset')main.innerHTML=renderReset();
+}
+
+/* ============================================================
+   HELPERS
+============================================================ */
+function formatPrice(n){if(n>=10000000)return (n/10000000).toFixed(2)+' Cr';if(n>=100000)return (n/100000).toFixed(1)+' L';return n.toLocaleString();}
+function esc(s){return String(s==null?'':s).replace(/"/g,'&quot;');}
+function fileToDataURL(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});}
+async function handleImageUpload(input,targetId,previewId){
+  const file=input.files&&input.files[0];if(!file)return;
+  if(file.size>1.8*1024*1024){showToast('Image too large (max 1.8MB). Use an image URL instead.','error');input.value='';return;}
+  const data=await fileToDataURL(file);
+  const t=document.getElementById(targetId);if(t)t.value=data;
+  const p=document.getElementById(previewId);if(p)p.src=data;
+  showToast('Image uploaded');
+}
+function initFormImagePreviews(){
+  document.querySelectorAll('[data-preview-for]').forEach(inp=>{
+    const prev=document.getElementById(inp.getAttribute('data-preview-for'));
+    inp.addEventListener('input',()=>{if(prev&&inp.value.trim())prev.src=inp.value.trim();});
+  });
+}
+function imageField(label,name,value,previewId){
+  return `<div class="form-group" style="grid-column:1/-1"><label>${label}</label>
+  <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+    <img id="${previewId}" src="${value||'https://via.placeholder.com/120x90?text=No+Image'}" alt="preview" style="width:120px;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--border)" />
+    <div style="flex:1;min-width:230px">
+      <input id="${previewId}_input" name="${name}" value="${esc(value||'')}" placeholder="Paste image URL" data-preview-for="${previewId}" />
+      <label class="upload-btn" style="margin-top:8px"><i class="fa-solid fa-upload"></i> Upload from device
+        <input type="file" accept="image/*" hidden onchange="handleImageUpload(this,'${previewId}_input','${previewId}')" />
+      </label>
+    </div>
+  </div></div>`;
+}
+
+/* ============================================================
+   DASHBOARD
+============================================================ */
+function renderDashboard(){
+  const props=DB.props(),users=ls('estate_users')||[],contacts=ls('estate_contacts')||[],agents=DB.agents();
+  const totalVal=props.reduce((s,p)=>s+(p.purpose==='Buy'?p.price:0),0);
+  const featured=props.filter(p=>p.featured).length;
+  const sold=props.filter(p=>p.status==='Sold').length;
+  return `<div class="topbar"><div><div class="crumb">Dashboard</div><h1>Overview</h1></div>
+  <div class="top-actions"><a href="index.html" target="_blank" class="btn-secondary"><i class="fa-solid fa-globe"></i> View Website</a><a href="index.html" class="btn-primary"><i class="fa-solid fa-arrow-left"></i> Back to Site</a></div></div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="sc-icon"><i class="fa-solid fa-building-columns"></i></div><h3>${props.length}</h3><p>Total Properties</p></div>
+    <div class="stat-card"><div class="sc-icon"><i class="fa-solid fa-star"></i></div><h3>${featured}</h3><p>Featured Properties</p></div>
+    <div class="stat-card"><div class="sc-icon"><i class="fa-solid fa-tag"></i></div><h3>${sold}</h3><p>Sold / Rented</p></div>
+    <div class="stat-card"><div class="sc-icon"><i class="fa-solid fa-user-tie"></i></div><h3>${agents.length}</h3><p>Agents</p></div>
+    <div class="stat-card"><div class="sc-icon"><i class="fa-solid fa-users"></i></div><h3>${users.length}</h3><p>Registered Users</p></div>
+    <div class="stat-card"><div class="sc-icon"><i class="fa-solid fa-envelope"></i></div><h3>${contacts.length}</h3><p>Contact Requests</p></div>
+    <div class="stat-card"><div class="sc-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div><h3>${formatPrice(totalVal)}</h3><p>Portfolio Value</p></div>
+    <div class="stat-card"><div class="sc-icon"><i class="fa-solid fa-gauge-high"></i></div><h3>${props.length?Math.round(props.reduce((s,p)=>s+p.rating,0)/props.length*10)/10:0}</h3><p>Avg Rating</p></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px" class="dash-cols">
+    <div class="panel-card"><h3><i class="fa-solid fa-building" style="color:var(--gold);margin-right:8px"></i> Latest Properties</h3>
+      <div class="table-wrap" style="border:none;background:transparent"><table><thead><tr><th>Property</th><th>Price</th><th>Status</th></tr></thead><tbody>
+      ${props.slice().sort((a,b)=>b.created-a.created).slice(0,6).map(p=>`<tr><td><strong style="color:#fff">${p.title}</strong></td><td>₹${formatPrice(p.price)}</td><td><span class="badge-pill ${p.status==='Available'?'badge-gold':''}">${p.status}</span></td></tr>`).join('')}
+      </tbody></table></div>
+      <a onclick="go('properties')" style="color:var(--gold);font-size:.85rem;font-weight:600;cursor:pointer;display:inline-block;margin-top:12px">Manage all →</a>
+    </div>
+    <div class="panel-card"><h3><i class="fa-solid fa-envelope-open-text" style="color:var(--gold);margin-right:8px"></i> Recent Enquiries</h3>
+      <div class="table-wrap" style="border:none;background:transparent"><table><thead><tr><th>Customer</th><th>Property</th><th>Date</th></tr></thead><tbody>
+      ${contacts.slice(-5).reverse().map(c=>`<tr><td>${esc(c.name)}</td><td>${c.propertyId?'#'+c.propertyId:'Contact form'}</td><td>${new Date(c.date).toLocaleDateString()}</td></tr>`).join('')||'<tr><td colspan="3" style="color:var(--text-ghost)">No enquiries yet.</td></tr>'}
+      </tbody></table></div>
+      <a onclick="go('requests')" style="color:var(--gold);font-size:.85rem;font-weight:600;cursor:pointer;display:inline-block;margin-top:12px">View requests →</a>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   PROPERTIES TABLE
+============================================================ */
+let propQuery='';
+function renderProperties(){
+  const props=DB.props();
+  const q=propQuery.toLowerCase();
+  const list=props.filter(x=>!q||(x.title||'').toLowerCase().includes(q)||(x.city||'').toLowerCase().includes(q)||(x.owner?.name||'').toLowerCase().includes(q));
+  return `<div class="topbar"><div><div class="crumb">Manage</div><h1>Properties</h1></div>
+  <div class="top-actions"><button onclick="go('add')" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Property</button></div></div>
+  <input class="search-input" id="propSearch" placeholder="Search by title, city or owner..." oninput="propQuery=this.value;document.getElementById('propTbody').innerHTML=propsRows(filterProps(this.value));" />
+  <div class="table-wrap"><table><thead><tr><th>Image</th><th>Title / Owner</th><th>City</th><th>Type</th><th>Purpose</th><th>Price</th><th>Status</th><th>Featured</th><th>Actions</th></tr></thead>
+  <tbody id="propTbody">${propsRows(list)}</tbody></table></div>`;
+}
+function filterProps(q){const props=DB.props();q=(q||'').toLowerCase();return props.filter(x=>!q||(x.title||'').toLowerCase().includes(q)||(x.city||'').toLowerCase().includes(q)||(x.owner?.name||'').toLowerCase().includes(q));}
+function propsRows(list){
+  if(!list.length)return `<tr><td colspan="9" style="text-align:center;color:var(--text-ghost);padding:30px">No properties found.</td></tr>`;
+  return list.map(x=>`<tr>
+    <td><img class="thumb" src="${esc(x.mainImage)}" alt="" /></td>
+    <td><strong style="color:#fff">${esc(x.title)}</strong><br/><span style="font-size:.75rem;color:var(--text-ghost)">${esc(x.owner?.name||'—')} · ${esc(x.owner?.phone||'')}</span></td>
+    <td>${esc(x.city)}</td><td>${esc(x.type)}</td><td>${esc(x.purpose)}</td><td>₹${formatPrice(x.price)}</td>
+    <td><select onchange="setStatus(${x.id},this.value)" style="background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;border-radius:6px;padding:5px 8px;font-family:inherit;font-size:.76rem">
+      <option ${x.status==='Available'?'selected':''}>Available</option><option ${x.status==='Sold'?'selected':''}>Sold</option>
+      <option ${x.status==='Rented'?'selected':''}>Rented</option><option ${x.status==='Under Construction'?'selected':''}>Under Construction</option></select></td>
+    <td><button onclick="toggleFeature(${x.id})" class="table-btn ${x.featured?'btn-sm-green':'btn-sm-amber'}">${x.featured?'Yes':'No'}</button></td>
+    <td style="white-space:nowrap"><button onclick="editProp(${x.id})" class="table-btn btn-sm-amber"><i class="fa-solid fa-pen"></i> Edit</button>
+    <button onclick="duplicateProp(${x.id})" class="table-btn btn-sm-amber"><i class="fa-regular fa-copy"></i> Copy</button>
+    <button onclick="deleteProp(${x.id})" class="table-btn btn-sm-red"><i class="fa-solid fa-trash"></i> Del</button></td>
+  </tr>`).join('');
+}
+function setStatus(id,status){const props=DB.props().map(x=>x.id===id?{...x,status}:x);DB.saveProps(props);showToast('Status → '+status);}
+function toggleFeature(id){const props=DB.props().map(x=>x.id===id?{...x,featured:!x.featured}:x);DB.saveProps(props);showToast('Featured updated');go('properties');}
+function duplicateProp(id){
+  const props=DB.props(),p=props.find(x=>x.id===id);if(!p)return;
+  const copy=JSON.parse(JSON.stringify(p));copy.id=Date.now();copy.title=p.title+' (Copy)';copy.featured=false;copy.created=Date.now();
+  props.unshift(copy);DB.saveProps(props);showToast('Property duplicated');go('properties');
+}
+function deleteProp(id){if(!confirm('Delete this property permanently?'))return;DB.saveProps(DB.props().filter(x=>x.id!==id));showToast('Property deleted');go('properties');}
+
+/* ============================================================
+   PROPERTY FORM (ADD / EDIT)
+============================================================ */
+function editProp(id){currentTab='edit';document.querySelectorAll('.admin-nav a[data-tab]').forEach(a=>a.classList.toggle('active',false));document.querySelector('.admin-nav a[data-tab="properties"]').classList.add('active');const p=DB.props().find(x=>x.id===id);if(p){document.getElementById('adminMain').innerHTML=propertyFormHTML(p);initFormImagePreviews();window.scrollTo({top:0,behavior:'smooth'});}}
+function propertyFormHTML(p){
+  const v=(k,d='')=>p&&p[k]!==undefined&&p[k]!==null?esc(p[k]):d;
+  const o=(p&&p.owner)||{};
+  const ov=(k,d='')=>o[k]!==undefined?esc(o[k]):d;
+  const types=["Apartment","Flat","Villa","Independent House","House","Bungalow","Farm House","Office","Commercial","Shop","Warehouse","Land","Plot"];
+  const gal=(p&&p.gallery)||[];
+  return `<div class="topbar"><div><div class="crumb">${p?'Edit':'Add'}</div><h1>${p?'Edit Property':'Add New Property'}</h1></div>
+  <div class="top-actions"><button onclick="go('properties')" class="btn-secondary"><i class="fa-solid fa-arrow-left"></i> Back to List</button></div></div>
+  <div class="panel-card"><form onsubmit="saveProp(event)" class="admin-form">
+    <input type="hidden" name="id" value="${p?p.id:''}" />
+    <h3 class="form-section-title"><i class="fa-solid fa-circle-info"></i> Basic Information</h3>
+    <div class="form-row"><div class="form-group"><label>Title *</label><input name="title" value="${v('title')}" required /></div>
+    <div class="form-group"><label>Price (₹) *</label><input name="price" type="number" value="${v('price')}" required /></div></div>
+    <div class="form-row"><div class="form-group"><label>Property Type</label><select name="type">${types.map(t=>`<option ${v('type')===t?'selected':''}>${t}</option>`).join('')}</select></div>
+    <div class="form-group"><label>Purpose</label><select name="purpose"><option ${v('purpose')==='Buy'?'selected':''}>Buy</option><option ${v('purpose')==='Rent'?'selected':''}>Rent</option></select></div></div>
+    <div class="form-row"><div class="form-group"><label>Status</label><select name="status"><option ${v('status')==='Available'?'selected':''}>Available</option><option ${v('status')==='Sold'?'selected':''}>Sold</option><option ${v('status')==='Rented'?'selected':''}>Rented</option><option ${v('status')==='Under Construction'?'selected':''}>Under Construction</option></select></div>
+    <div class="form-group"><label>Featured</label><select name="featured"><option value="yes" ${p&&p.featured?'selected':''}>Yes</option><option value="no" ${!p||!p.featured?'selected':''}>No</option></select></div></div>
+    <div class="form-group" style="grid-column:1/-1"><label>Description</label><textarea name="description" rows="3">${p?esc(p.description||''):''}</textarea></div>
+
+    <h3 class="form-section-title"><i class="fa-solid fa-images"></i> Images &amp; Media</h3>
+    ${imageField('Main Image (shown on cards)','mainImage',v('mainImage'),'prevMain')}
+    ${imageField('Gallery Image 1','g1',gal[0]||'','prevG1')}
+    ${imageField('Gallery Image 2','g2',gal[1]||'','prevG2')}
+    ${imageField('Gallery Image 3','g3',gal[2]||'','prevG3')}
+    <div class="form-row"><div class="form-group"><label>Video URL</label><input name="videoUrl" value="${v('videoUrl')}" placeholder="https://youtube.com/..." /></div>
+    <div class="form-group"><label>Virtual Tour URL</label><input name="tourUrl" value="${v('tourUrl')}" /></div></div>
+    <div class="form-group" style="grid-column:1/-1"><label>Google Map Link</label><input name="mapLink" value="${v('mapLink')}" /></div>
+
+    <h3 class="form-section-title"><i class="fa-solid fa-location-dot"></i> Location</h3>
+    <div class="form-row"><div class="form-group"><label>Address</label><input name="address" value="${v('address')}" /></div>
+    <div class="form-group"><label>City *</label><input name="city" value="${v('city')}" required /></div></div>
+    <div class="form-row"><div class="form-group"><label>State</label><input name="state" value="${v('state')}" /></div>
+    <div class="form-group"><label>Country</label><input name="country" value="${v('country','India')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Zip Code</label><input name="zip" value="${v('zip')}" /></div>
+    <div class="form-group"><label>Latitude, Longitude</label><input name="latlong" value="${v('lat')},${v('long')}" /></div></div>
+
+    <h3 class="form-section-title"><i class="fa-solid fa-house-chimney"></i> Features</h3>
+    <div class="form-row"><div class="form-group"><label>Bedrooms</label><input name="bedrooms" type="number" value="${v('bedrooms','1')}" /></div>
+    <div class="form-group"><label>Bathrooms</label><input name="bathrooms" type="number" value="${v('bathrooms','1')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Kitchen</label><input name="kitchen" type="number" value="${v('kitchen','1')}" /></div>
+    <div class="form-group"><label>Balcony</label><input name="balcony" type="number" value="${v('balcony','1')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Parking</label><input name="parking" type="number" value="${v('parking','1')}" /></div>
+    <div class="form-group"><label>Floor</label><input name="floor" value="${v('floor','Ground')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Area (sqft)</label><input name="area" type="number" value="${v('area','1000')}" /></div>
+    <div class="form-group"><label>Year Built</label><input name="yearBuilt" type="number" value="${v('yearBuilt','2022')}" /></div></div>
+    <div class="form-group" style="grid-column:1/-1"><label>Amenities (comma separated)</label><input name="amenities" value="${p?esc((p.amenities||[]).join(', ')):'Gym, Pool, Parking, Security'}" /></div>
+    <div class="form-row"><div class="form-group"><label>Nearby School</label><input name="nSchool" value="${p?esc(p.nearby?.school||''):''}" /></div>
+    <div class="form-group"><label>Nearby Hospital</label><input name="nHospital" value="${p?esc(p.nearby?.hospital||''):''}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Nearby Metro</label><input name="nMetro" value="${p?esc(p.nearby?.metro||''):''}" /></div>
+    <div class="form-group"><label>Nearby Market</label><input name="nMarket" value="${p?esc(p.nearby?.market||''):''}" /></div></div>
+
+    <h3 class="form-section-title"><i class="fa-solid fa-user-tie"></i> Owner &amp; Contact Details</h3>
+    ${imageField('Owner Photo','ownerImg',ov('img'),'prevOwner')}
+    <div class="form-row"><div class="form-group"><label>Owner Name</label><input name="ownerName" value="${ov('name')}" /></div>
+    <div class="form-group"><label>Agency Name</label><input name="ownerAgency" value="${ov('agency')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Owner Phone (Call)</label><input name="ownerPhone" value="${ov('phone')}" /></div>
+    <div class="form-group"><label>WhatsApp Number</label><input name="ownerWhatsapp" value="${ov('whatsapp')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Owner Email</label><input name="ownerEmail" type="email" value="${ov('email')}" /></div>
+    <div class="form-group"><label>Office Address</label><input name="ownerAddress" value="${ov('address')}" /></div></div>
+
+    <div style="display:flex;gap:12px;margin-top:22px;flex-wrap:wrap">
+      <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> ${p?'Update':'Save'} Property</button>
+      ${p?`<button type="button" onclick="duplicateProp(${p.id})" class="btn-secondary"><i class="fa-regular fa-copy"></i> Duplicate</button>`:''}
+      <button type="button" onclick="go('properties')" class="btn-secondary"><i class="fa-solid fa-xmark"></i> Cancel</button>
+    </div>
+  </form></div>`;
+}
+function saveProp(e){
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  const g=k=>(fd.get(k)||'').toString().trim();
+  const props=DB.props();
+  const idVal=g('id');
+  const [lat,long]=(g('latlong')||'0,0').split(',');
+  const gallery=[g('g1'),g('g2'),g('g3')].filter(Boolean);
+  const record={
+    title:g('title'),description:g('description'),type:g('type'),purpose:g('purpose'),
+    status:g('status'),featured:g('featured')==='yes',price:+g('price')||0,
+    mainImage:g('mainImage')||IMAGES[0],gallery:gallery.length?gallery:[IMAGES[1],IMAGES[2]],
+    videoUrl:g('videoUrl'),tourUrl:g('tourUrl'),mapLink:g('mapLink'),
+    address:g('address')||g('city'),city:g('city'),state:g('state')||stateFor(g('city')),
+    country:g('country'),zip:g('zip'),lat:parseFloat(lat)||0,long:parseFloat(long)||0,
+    location:`${g('city')}, ${g('state')||stateFor(g('city'))}`,
+    bedrooms:+g('bedrooms')||0,bathrooms:+g('bathrooms')||0,kitchen:+g('kitchen')||0,
+    balcony:+g('balcony')||0,parking:+g('parking')||0,floor:g('floor'),
+    area:+g('area')||0,yearBuilt:+g('yearBuilt')||2022,
+    amenities:g('amenities').split(',').map(s=>s.trim()).filter(Boolean),
+    nearby:{school:g('nSchool'),hospital:g('nHospital'),metro:g('nMetro'),market:g('nMarket')},
+    owner:{name:g('ownerName'),agency:g('ownerAgency'),phone:g('ownerPhone'),whatsapp:g('ownerWhatsapp')||g('ownerPhone'),email:g('ownerEmail'),address:g('ownerAddress'),img:g('ownerImg')||DB.settings().ownerFallbackImage}
+  };
+  if(idVal){
+    const i=props.findIndex(x=>String(x.id)===String(idVal));
+    if(i>-1){props[i]={...props[i],...record};DB.saveProps(props);showToast('Property updated');}
+  }else{
+    props.unshift({id:Date.now(),rating:4.6,views:0,created:Date.now(),...record});
+    DB.saveProps(props);showToast('Property added');
+  }
+  go('properties');
+}
+
+/* ============================================================
+   AGENTS
+============================================================ */
+function renderAgents(){
+  const ags=DB.agents();
+  return `<div class="topbar"><div><div class="crumb">Manage</div><h1>Agents</h1></div>
+  <div class="top-actions"><button onclick="addAgent()" class="btn-primary"><i class="fa-solid fa-plus"></i> Add Agent</button></div></div>
+  <div class="grid-3">${ags.map((a,i)=>`<div class="panel-card"><form onsubmit="saveAgent(event,${i})">
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+      <img id="agImg${i}" src="${esc(a.img)}" alt="" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid rgba(197,160,89,.4)" />
+      <div style="flex:1"><input id="agImg${i}_input" name="img" value="${esc(a.img)}" oninput="document.getElementById('agImg${i}').src=this.value" placeholder="Photo URL" style="width:100%;padding:8px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;font-family:inherit;font-size:.8rem" />
+      <label class="upload-btn" style="margin-top:6px;font-size:.72rem"><i class="fa-solid fa-upload"></i> Upload<input type="file" accept="image/*" hidden onchange="handleImageUpload(this,'agImg${i}_input','agImg${i}')" /></label></div></div>
+    <div class="form-row"><div class="form-group"><label>Name</label><input name="name" value="${esc(a.name)}" /></div>
+    <div class="form-group"><label>Role</label><input name="role" value="${esc(a.role||'')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Phone</label><input name="phone" value="${esc(a.phone||'')}" /></div>
+    <div class="form-group"><label>WhatsApp</label><input name="whatsapp" value="${esc(a.whatsapp||'')}" /></div></div>
+    <div class="form-group"><label>Email</label><input name="email" value="${esc(a.email||'')}" /></div>
+    <div class="form-group"><label>Bio</label><textarea name="bio" rows="2">${esc(a.bio||'')}</textarea></div>
+    <div style="display:flex;gap:8px"><button type="submit" class="table-btn btn-sm-green" style="padding:9px 16px">Save Agent</button>
+    <button type="button" onclick="deleteAgent(${i})" class="table-btn btn-sm-red" style="padding:9px 16px">Delete</button></div>
+  </form></div>`).join('')}</div>`;
+}
+function saveAgent(e,i){e.preventDefault();const fd=new FormData(e.target);const ags=DB.agents();ags[i]={...ags[i],name:fd.get('name'),role:fd.get('role'),phone:fd.get('phone'),whatsapp:fd.get('whatsapp'),email:fd.get('email'),bio:fd.get('bio'),img:fd.get('img')};DB.saveAgents(ags);showToast('Agent saved');}
+function addAgent(){const ags=DB.agents();ags.push({name:'New Agent',role:'Property Advisor',bio:'Add a short bio here.',phone:'+91 90000 00000',whatsapp:'919000000000',email:'new@luxeliving.in',img:'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop'});DB.saveAgents(ags);showToast('Agent added');go('agents');}
+function deleteAgent(i){if(!confirm('Delete this agent?'))return;const ags=DB.agents();ags.splice(i,1);DB.saveAgents(ags);showToast('Agent deleted');go('agents');}
+
+/* ============================================================
+   MEDIA / IMAGE MANAGER
+============================================================ */
+function renderMedia(){
+  const props=DB.props(),s=DB.settings();
+  return `<div class="topbar"><div><div class="crumb">Manage</div><h1>Media &amp; Images</h1></div></div>
+  <div class="panel-card" style="margin-bottom:20px"><h3><i class="fa-solid fa-panorama" style="color:var(--gold);margin-right:8px"></i> Global Images</h3>
+  <form onsubmit="saveGlobalImages(event)" class="admin-form">
+    ${imageField('Hero Banner (homepage)','heroImage',s.heroImage,'prevHero')}
+    ${imageField('Site Logo Image (leave blank for text logo)','logoImage',s.logoImage,'prevLogo')}
+    ${imageField('Default Owner Photo','ownerFallbackImage',s.ownerFallbackImage,'prevOwnerFallback')}
+    <button type="submit" class="btn-primary" style="margin-top:10px;justify-self:start"><i class="fa-solid fa-floppy-disk"></i> Save Global Images</button>
+  </form></div>
+  <h3 class="form-section-title"><i class="fa-solid fa-building"></i> Property Images (${props.length})</h3>
+  <div class="media-grid">${props.map(p=>`<div class="media-item">
+    <img id="mimg${p.id}" src="${esc(p.mainImage)}" alt="${esc(p.title)}" />
+    <div style="padding:10px"><div style="font-size:.78rem;color:#fff;font-weight:600;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.title)}</div>
+    <input id="mimg${p.id}_input" value="${esc(p.mainImage)}" oninput="document.getElementById('mimg${p.id}').src=this.value" />
+    <div style="display:flex;gap:6px;align-items:center"><label class="upload-btn" style="font-size:.7rem;flex:1"><i class="fa-solid fa-upload"></i> Upload<input type="file" accept="image/*" hidden onchange="handleImageUpload(this,'mimg${p.id}_input','mimg${p.id}')" /></label>
+    <button onclick="savePropImage(${p.id})" class="table-btn btn-sm-green">Save</button></div></div>
+  </div>`).join('')}</div>`;
+}
+function savePropImage(id){const val=document.getElementById('mimg'+id+'_input').value.trim();const props=DB.props().map(x=>x.id===id?{...x,mainImage:val}:x);DB.saveProps(props);showToast('Image saved');}
+function saveGlobalImages(e){e.preventDefault();const fd=new FormData(e.target);const s=DB.settings();s.heroImage=fd.get('heroImage');s.logoImage=fd.get('logoImage');s.ownerFallbackImage=fd.get('ownerFallbackImage');DB.saveSettings(s);showToast('Global images updated');}
+
+/* ============================================================
+   USERS
+============================================================ */
+function renderUsers(){
+  const users=ls('estate_users')||[],favs=ls('estate_favourites')||{};
+  return `<div class="topbar"><div><div class="crumb">Manage</div><h1>Registered Users</h1></div></div>
+  <div class="table-wrap"><table><thead><tr><th>User</th><th>Email</th><th>Phone</th><th>Favourites</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead><tbody>
+  ${users.map(u=>`<tr><td><div style="display:flex;align-items:center;gap:10px"><img src="${esc(u.img||'')}" style="width:36px;height:36px;border-radius:50%;object-fit:cover" alt=""/><strong style="color:#fff">${esc(u.name)}</strong></div></td><td>${esc(u.email)}</td><td>${esc(u.phone||'—')}</td><td>${(favs[u.id]||[]).length}</td><td><span class="badge-pill badge-gold">${esc(u.role||'user')}</span></td><td>${new Date(u.created).toLocaleDateString()}</td>
+  <td><button onclick="deleteUser(${u.id})" class="table-btn btn-sm-red"><i class="fa-solid fa-trash"></i> Delete</button></td></tr>`).join('')||'<tr><td colspan="7" style="text-align:center;color:var(--text-ghost)">No users.</td></tr>'}
+  </tbody></table></div>`;
+}
+function deleteUser(id){if(!confirm('Delete this user account?'))return;const users=(ls('estate_users')||[]).filter(x=>x.id!==id);ls('estate_users',users);showToast('User deleted');go('users');}
+
+/* ============================================================
+   CONTACT REQUESTS
+============================================================ */
+function renderRequests(){
+  const c=ls('estate_contacts')||[];
+  return `<div class="topbar"><div><div class="crumb">Manage</div><h1>Contact Requests</h1></div>
+  <div class="top-actions"><button onclick="exportCSV()" class="btn-secondary"><i class="fa-solid fa-file-csv"></i> Export CSV</button></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Customer</th><th>Email</th><th>Phone</th><th>Interested Property</th><th>Message</th><th>Date</th><th>Status</th><th>Action</th></tr></thead><tbody>
+  ${c.slice().reverse().map(x=>`<tr><td><strong style="color:#fff">${esc(x.name)}</strong></td><td>${esc(x.email)}</td><td>${esc(x.phone||'—')}</td><td>${x.propertyId?'<a href="index.html#property-'+x.propertyId+'" target="_blank" style="color:var(--gold)">#'+x.propertyId+'</a>':'Contact Form'}</td><td style="max-width:220px;font-size:.8rem;color:var(--text-dim)">${esc(x.message||'')}</td><td>${new Date(x.date).toLocaleString()}</td><td><span class="badge-pill ${x.status==='Resolved'?'btn-sm-green':''}">${esc(x.status||'New')}</span></td>
+  <td style="white-space:nowrap"><button onclick="setContactStatus('${String(x.id)}','Resolved')" class="table-btn btn-sm-green">Resolve</button> <button onclick="deleteContact('${String(x.id)}')" class="table-btn btn-sm-red">Delete</button></td></tr>`).join('')||'<tr><td colspan="8" style="text-align:center;color:var(--text-ghost)">No contact requests yet.</td></tr>'}
+  </tbody></table></div>`;
+}
+function setContactStatus(id,status){const c=(ls('estate_contacts')||[]).map(x=>String(x.id)===String(id)?{...x,status}:x);ls('estate_contacts',c);showToast('Marked resolved');go('requests');}
+function deleteContact(id){if(!confirm('Delete this request?'))return;const c=(ls('estate_contacts')||[]).filter(x=>String(x.id)!==String(id));ls('estate_contacts',c);showToast('Request deleted');go('requests');}
+function exportCSV(){
+  const c=ls('estate_contacts')||[];
+  const rows=[['Name','Email','Phone','Property','Message','Date','Status'],...c.map(x=>[x.name||'',x.email||'',x.phone||'',x.propertyId||'Contact Form',x.message||'',new Date(x.date).toISOString(),x.status||'New'])];
+  const blob=new Blob([rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n')],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='luxeliving-contacts.csv';a.click();showToast('CSV exported');
+}
+
+/* ============================================================
+   TESTIMONIALS
+============================================================ */
+function renderTestimonials(){
+  const ts=DB.testis();
+  return `<div class="topbar"><div><div class="crumb">Manage</div><h1>Testimonials</h1></div>
+  <div class="top-actions"><button onclick="addTestimonial()" class="btn-primary"><i class="fa-solid fa-plus"></i> Add</button></div></div>
+  <div class="grid-3">${ts.map((t,i)=>`<div class="panel-card"><form onsubmit="saveTestimonial(event,${i})">
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+      <img id="tImg${i}" src="${esc(t.img)}" style="width:56px;height:56px;border-radius:50%;object-fit:cover" alt=""/>
+      <div style="flex:1"><input id="tImg${i}_input" name="img" value="${esc(t.img)}" oninput="document.getElementById('tImg${i}').src=this.value" style="width:100%;padding:7px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;font-size:.75rem;font-family:inherit" />
+      <label class="upload-btn" style="margin-top:5px;font-size:.7rem"><i class="fa-solid fa-upload"></i> Upload<input type="file" accept="image/*" hidden onchange="handleImageUpload(this,'tImg${i}_input','tImg${i}')" /></label></div></div>
+    <div class="form-row"><div class="form-group"><label>Name</label><input name="name" value="${esc(t.name)}" /></div>
+    <div class="form-group"><label>City</label><input name="city" value="${esc(t.city||'')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Rating (1-5)</label><input name="rating" type="number" min="1" max="5" value="${esc(t.rating)}" /></div>
+    <div class="form-group"><label>Photo</label><input name="img" value="${esc(t.img)}" oninput="document.getElementById('tImg${i}').src=this.value" /></div></div>
+    <div class="form-group"><label>Message</label><textarea name="text" rows="3">${esc(t.text)}</textarea></div>
+    <div style="display:flex;gap:8px"><button type="submit" class="table-btn btn-sm-green" style="padding:9px 16px">Save</button>
+    <button type="button" onclick="deleteTestimonial(${i})" class="table-btn btn-sm-red" style="padding:9px 16px">Delete</button></div>
+  </form></div>`).join('')}</div>`;
+}
+function saveTestimonial(e,i){e.preventDefault();const fd=new FormData(e.target);const ts=DB.testis();ts[i]={name:fd.get('name'),city:fd.get('city'),rating:+fd.get('rating')||5,text:fd.get('text'),img:fd.get('img')};DB.saveTestis(ts);showToast('Testimonial saved');}
+function addTestimonial(){const ts=DB.testis();ts.push({name:'New Client',city:'Mumbai',rating:5,text:'Write the client feedback here.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop'});DB.saveTestis(ts);showToast('Testimonial added');go('testimonials');}
+function deleteTestimonial(i){if(!confirm('Delete this testimonial?'))return;const ts=DB.testis();ts.splice(i,1);DB.saveTestis(ts);showToast('Testimonial deleted');go('testimonials');}
+
+/* ============================================================
+   SETTINGS (branding + contact details)
+============================================================ */
+function renderSettings(){
+  const s=DB.settings();
+  const escT=v=>esc(v||'');
+  return `<div class="topbar"><div><div class="crumb">Configure</div><h1>Website Settings</h1></div></div>
+  <div class="panel-card"><form onsubmit="saveSettings(event)" class="admin-form">
+    <h3 class="form-section-title"><i class="fa-solid fa-signature"></i> Branding &amp; Hero</h3>
+    <div class="form-row"><div class="form-group"><label>Website Name</label><input name="siteName" value="${escT(s.siteName)}" /></div>
+    <div class="form-group"><label>Logo Text</label><input name="logoText" value="${escT(s.logoText)}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Logo Accent Text (gold)</label><input name="logoAccent" value="${escT(s.logoAccent)}" /></div>
+    <div class="form-group"><label>Hero Title</label><input name="heroTitle" value="${escT(s.heroTitle)}" /></div></div>
+    <div class="form-group" style="grid-column:1/-1"><label>Hero Subtitle</label><textarea name="heroSubtitle" rows="2">${escT(s.heroSubtitle)}</textarea></div>
+    ${imageField('Logo Image (optional)','logoImage',s.logoImage,'prevLogoSet')}
+    ${imageField('Hero Banner','heroImage',s.heroImage,'prevHeroSet')}
+
+    <h3 class="form-section-title"><i class="fa-solid fa-address-book"></i> Contact Details (site-wide)</h3>
+    <div class="form-row"><div class="form-group"><label>Contact Email</label><input name="email" value="${escT(s.email)}" /></div>
+    <div class="form-group"><label>Phone (display)</label><input name="phone" value="${escT(s.phone)}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>WhatsApp (with country code)</label><input name="whatsapp" value="${escT(s.whatsapp)}" /></div>
+    <div class="form-group"><label>Office Address</label><input name="address" value="${escT(s.address)}" /></div></div>
+    <div class="form-group" style="grid-column:1/-1"><label>Footer About Text</label><textarea name="footerAbout" rows="2">${escT(s.footerAbout)}</textarea></div>
+
+    <h3 class="form-section-title"><i class="fa-solid fa-share-nodes"></i> Social Links</h3>
+    <div class="form-row"><div class="form-group"><label>Facebook</label><input name="facebook" value="${escT(s.facebook)}" /></div>
+    <div class="form-group"><label>Instagram</label><input name="instagram" value="${escT(s.instagram)}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>LinkedIn</label><input name="linkedin" value="${escT(s.linkedin)}" /></div>
+    <div class="form-group"><label>Twitter / X</label><input name="twitter" value="${escT(s.twitter)}" /></div></div>
+
+    <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
+      <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
+      <button type="button" onclick="resetDatabase()" class="btn-secondary"><i class="fa-solid fa-rotate-left"></i> Reset Demo Data</button>
+    </div>
+  </form></div>`;
+}
+function saveSettings(e){
+  e.preventDefault();
+  const fd=new FormData(e.target);const s=DB.settings();
+  ['siteName','logoText','logoAccent','logoImage','heroTitle','heroSubtitle','heroImage','email','phone','whatsapp','address','footerAbout','facebook','instagram','linkedin','twitter'].forEach(k=>{if(fd.get(k)!==null)s[k]=fd.get(k);});
+  DB.saveSettings(s);
+  applyBranding();
+  showToast('Settings saved — public site updated');
+}
+function applyBranding(){
+  const s=DB.settings();
+  const logoHTML=s.logoImage?`<img src="${s.logoImage}" alt="${s.siteName}" style="height:32px;width:auto;border-radius:6px"/>`:(esc(s.logoText||'Luxe')+'<span>'+esc(s.logoAccent||'Living')+'</span>');
+  document.getElementById('loginLogo').innerHTML=logoHTML;
+  document.getElementById('sideLogo').innerHTML=logoHTML;
+  document.title=(s.siteName||'LuxeLiving')+' Admin — Control Panel';
+}
+
+/* ============================================================
+   RESET / DANGER ZONE
+============================================================ */
+function renderReset(){
+  return `<div class="topbar"><div><div class="crumb">Danger Zone</div><h1>Reset Demo Data</h1></div></div>
+  <div class="panel-card" style="border-color:rgba(231,76,60,.35);max-width:640px">
+    <h3 style="color:#e74c3c"><i class="fa-solid fa-triangle-exclamation"></i> Restore all demo content</h3>
+    <p style="color:var(--text-dim);margin:12px 0 20px;font-size:.92rem">This will erase all your changes (properties, agents, testimonials, settings, contacts, favourites) and restore the original 50 demo properties and default settings on the public website.</p>
+    <button onclick="resetDatabase()" class="btn-primary" style="background:linear-gradient(135deg,#e74c3c,#8a2d3d)"><i class="fa-solid fa-rotate-left"></i> Reset Everything to Demo Defaults</button>
+  </div>`;
+}
+function resetDatabase(){
+  if(!confirm('This will permanently delete all your changes. Continue?'))return;
+  ['estate_properties','estate_agents','estate_testimonials','estate_settings','estate_contacts','estate_favourites','estate_visits'].forEach(k=>localStorage.removeItem(k));
+  initDB();applyBranding();
+  showToast('Demo data restored');
+  go('dashboard');
+}
+
+/* ============================================================
+   TOAST
+============================================================ */
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast'),m=document.getElementById('toastMsg');
+  m.textContent=msg;
+  t.className='toast show'+(type==='error'?' error':'');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+function init(){
+  initDB();
+  applyBranding();
+  ensureAuth();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+</script>
+</body>
+</html>
