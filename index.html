@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dream Ledger — Premium Real Estate Portal</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet" />
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<style>
+/* ============================================
+   LUXELIVING - PREMIUM REAL ESTATE PORTAL
+   STYLES: Glassmorphism, Premium Animations, Dark Theme
+ ============================================ */
+
+:root{
+  --gold:#c5a059;
+  --gold-soft:#e3cfa8;
+  --gold-deep:#8a6d2f;
+  --ink:#0b0c15;
+  --paper:#0f1018;
+  --card:#121420;
+  --surface:#181a28;
+  --surface-hover:#1f2232;
+  --border:rgba(255,255,255,0.08);
+  --border-strong:rgba(255,255,255,0.14);
+  --text:#f2f0e6;
+  --text-dim:#b0a99e;
+  --text-ghost:#6e675c;
+  --shadow-sm:0 2px 12px rgba(0,0,0,0.35);
+  --shadow-md:0 16px 48px rgba(0,0,0,0.45),0 1px 3px rgba(0,0,0,0.3);
+  --shadow-lg:0 30px 80px rgba(0,0,0,0.55),0 0 0 1px rgba(255,255,255,0.04);
+  --radius:20px;
+  --radius-sm:12px;
+  --font-body:'Poppins',sans-serif;
+  --font-display:'Playfair Display',serif;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:var(--font-body);background:var(--ink);color:var(--text);line-height:1.55;overflow-x:hidden;min-height:100vh;}
+::selection{background:rgba(197,160,89,0.25);color:#fff}
+
+img{max-width:100%;height:auto;display:block;border-radius:var(--radius-sm)}
+
+/* ---------- UTILS ---------- */
+.container{width:92%;max-width:1280px;margin:0 auto;padding:0 12px}
+.container-sm{width:92%;max-width:980px;margin:0 auto;padding:0 12px}
+
+/* ---------- NAVBAR ---------- */
+.navbar{position:sticky;top:0;z-index:1000;background:rgba(11,12,21,0.7);backdrop-filter:blur(24px) saturate(140%);-webkit-backdrop-filter:blur(24px) saturate(140%);border-bottom:1px solid var(--border);transition:background .3s}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font-family:var(--font-display);font-size:1.55rem;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-1px}
+.logo span{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:28px;align-items:center;list-style:none}
+.nav-links a{color:var(--text-dim);text-decoration:none;font-size:.89rem;font-weight:500;letter-spacing:.2px;position:relative;transition:.25s;padding-bottom:4px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .3s;border-radius:2px}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-btn{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#0b0c15;padding:9px 20px;border-radius:50px;font-weight:700;font-size:.85rem;text-decoration:none;letter-spacing:.3px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 22px rgba(197,160,89,0.35);border:none;cursor:pointer}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(197,160,89,0.45)}
+.nav-btn-ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.15);padding:9px 20px;border-radius:50px;font-weight:600;font-size:.85rem;text-decoration:none;transition:.25s;cursor:pointer}
+.nav-btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.menu-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;height:92vh;min-height:640px;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;opacity:.55;filter:brightness(.6) contrast(1.1)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,12,21,.85) 0%,rgba(11,12,21,.5) 55%,rgba(11,12,21,.25) 100%);z-index:1}
+.hero-content{position:relative;z-index:2;max-width:780px}
+.hero-label{display:inline-flex;align-items:center;gap:10px;background:rgba(197,160,89,0.12);border:1px solid rgba(197,160,89,0.35);color:var(--gold);padding:8px 16px;border-radius:50px;font-size:.82rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:22px}
+.hero-label i{font-size:.85rem}
+.hero h1{font-family:var(--font-display);font-size:clamp(3rem,6vw,5rem);line-height:1.08;font-weight:700;letter-spacing:-3px;color:#fff;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--gold);font-family:var(--font-display)}
+.hero p{font-size:1.12rem;color:var(--text-dim);max-width:540px;margin-bottom:36px;line-height:1.7}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.hero-btns a{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:50px;font-weight:700;font-size:.95rem;text-decoration:none;transition:.25s;border:none;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#0b0c15;box-shadow:0 12px 30px rgba(197,160,89,0.4)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(197,160,89,0.55)}
+.btn-secondary{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(8px)}
+.btn-secondary:hover{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.35)}
+
+/* Search widget inside hero */
+.search-widget{position:absolute;bottom:-32px;left:50%;transform:translateX(-50%);z-index:3;width:92%;max-width:900px;background:rgba(15,16,24,0.85);backdrop-filter:blur(28px);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius);padding:28px 32px;box-shadow:var(--shadow-lg);display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center}
+.search-widget input, .search-widget select{flex:1 1 200px;padding:13px 18px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:.92rem;font-family:inherit;outline:none;transition:.2s;width:100%}
+.search-widget input::placeholder{color:rgba(255,255,255,0.35)}
+.search-widget input:focus,.search-widget select:focus{border-color:var(--gold);background:rgba(255,255,255,0.1)}
+.search-widget button{flex:0 0 auto;padding:13px 32px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#0b0c15;font-weight:700;font-size:.95rem;border:none;cursor:pointer;transition:.25s}
+.search-widget button:hover{box-shadow:0 10px 24px rgba(197,160,89,0.4);transform:translateY(-2px)}
+
+/* ---------- SECTIONS ---------- */
+.section{padding:100px 0 40px}
+.section-title{text-align:center;margin-bottom:60px}
+.section-title h2{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);color:#fff;margin-bottom:10px;letter-spacing:-2px}
+.section-title h2 em{font-style:italic;color:var(--gold)}
+.section-title p{color:var(--text-dim);font-size:1.05rem}
+
+/* ---------- FEATURED / LATEST ---------- */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-md);transition:transform .3s,border-color .3s,box-shadow .3s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-8px);border-color:rgba(255,255,255,0.18);box-shadow:var(--shadow-lg)}
+.card-img{position:relative;height:240px;overflow:hidden}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.card:hover .card-img img{transform:scale(1.06)}
+.card-badge{position:absolute;top:14px;left:14px;display:flex;gap:6px}
+.badge{padding:6px 12px;border-radius:50px;font-size:.72rem;font-weight:700;letter-spacing:.3px;text-transform:uppercase;background:rgba(11,12,21,0.8);color:#fff;border:1px solid rgba(255,255,255,0.12);backdrop-filter:blur(8px)}
+.badge-gold{background:rgba(197,160,89,0.9);color:#0b0c15;border-color:rgba(197,160,89,0.6)}
+.card-body{padding:24px 24px 24px}
+.card-meta{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.card-meta span{font-size:.78rem;color:var(--text-ghost);display:inline-flex;align-items:center;gap:6px}
+.card-meta span i{color:var(--gold);font-size:.75rem}
+.card h3{font-family:var(--font-display);font-size:1.2rem;margin-bottom:8px;color:#fff;letter-spacing:-.5px;line-height:1.25}
+.card h3 a{color:inherit;text-decoration:none}
+.card h3 a:hover{color:var(--gold)}
+.card-location{font-size:.88rem;color:var(--text-dim);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.card-location i{color:var(--gold);font-size:.85rem}
+.card-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:14px}
+.card-price{font-weight:700;color:var(--gold);font-size:1.15rem}
+.card-price span{font-weight:400;color:var(--text-ghost);font-size:.82rem;margin-left:2px}
+.card-btn{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;border-radius:50px;background:rgba(255,255,255,0.07);color:#fff;font-size:.82rem;font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,0.1);transition:.2s}
+.card-btn:hover{background:var(--gold);color:#0b0c15;border-color:var(--gold)}
+
+/* Grid utilities */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+
+/* ---------- CITY PILLS ---------- */
+.cities{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.city-pill{padding:10px 22px;border-radius:50px;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text);text-decoration:none;font-weight:600;font-size:.9rem;transition:.25s}
+.city-pill:hover{background:var(--gold);color:#0b0c15;border-color:var(--gold);transform:translateY(-3px)}
+
+/* ---------- AGENTS ---------- */
+.agent-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center;transition:.3s;box-shadow:var(--shadow-md)}
+.agent-card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,0.2)}
+.agent-card img{width:110px;height:110px;border-radius:50%;object-fit:cover;margin:0 auto 16px;border:3px solid rgba(197,160,89,0.3);box-shadow:0 0 0 6px rgba(197,160,89,0.08)}
+.agent-card h4{font-family:var(--font-display);font-size:1.15rem;color:#fff;margin-bottom:4px}
+.agent-card .role{font-size:.82rem;color:var(--gold);font-weight:600;margin-bottom:10px}
+.agent-card p{font-size:.84rem;color:var(--text-dim);margin-bottom:14px}
+.agent-social{display:flex;justify-content:center;gap:10px}
+.agent-social a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.08);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;transition:.2s;border:1px solid rgba(255,255,255,0.1)}
+.agent-social a:hover{background:var(--gold);color:#0b0c15;border-color:var(--gold)}
+
+/* ---------- TESTIMONIALS ---------- */
+.t-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:30px;position:relative;box-shadow:var(--shadow-md)}
+.t-card::before{content:'\201C';font-family:var(--font-display);font-size:5rem;color:rgba(197,160,89,0.12);position:absolute;top:14px;right:24px;line-height:1}
+.t-card p{font-style:italic;color:var(--text-dim);margin-bottom:22px;font-size:1.02rem;line-height:1.65}
+.t-author{display:flex;align-items:center;gap:14px}
+.t-author img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(197,160,89,0.3)}
+.t-author h5{font-weight:600;color:#fff;font-size:.95rem}
+.t-author span{font-size:.78rem;color:var(--text-ghost)}
+.t-stars{color:var(--gold);font-size:.8rem;letter-spacing:2px;margin-bottom:10px}
+
+/* ---------- STATS ---------- */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px}
+.stat-card{background:linear-gradient(160deg,var(--surface),var(--card));border:1px solid var(--border);border-radius:var(--radius);padding:32px;text-align:center;transition:.3s}
+.stat-card:hover{border-color:rgba(255,255,255,0.18);transform:translateY(-4px)}
+.stat-card i{font-size:2.2rem;color:var(--gold);margin-bottom:10px}
+.stat-card h3{font-family:var(--font-display);font-size:2.2rem;color:#fff;margin-bottom:6px}
+.stat-card p{font-size:.9rem;color:var(--text-dim)}
+
+/* ---------- FOOTER ---------- */
+.footer{background:linear-gradient(180deg,#0b0c12 0%,#08090f 100%);border-top:1px solid var(--border);padding:80px 0 30px;margin-top:40px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:40px;margin-bottom:50px}
+.footer h4{font-family:var(--font-display);font-size:1.1rem;color:#fff;margin-bottom:18px}
+.footer a{display:block;color:var(--text-dim);text-decoration:none;font-size:.88rem;margin-bottom:10px;transition:.2s}
+.footer a:hover{color:var(--gold)}
+.footer-brand{font-family:var(--font-display);font-size:1.8rem;color:#fff;margin-bottom:10px}
+.footer-brand span{color:var(--gold);font-style:italic}
+.footer-social{display:flex;gap:12px;margin-top:16px}
+.footer-social a{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.06);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:1.05rem;transition:.2s;border:1px solid rgba(255,255,255,0.1)}
+.footer-social a:hover{background:var(--gold);color:#0b0c15;border-color:var(--gold)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;color:var(--text-ghost);font-size:.82rem}
+
+/* ---------- PAGES ---------- */
+.page{display:none;animation:fadeIn .45s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ---------- LISTINGS ---------- */
+.listings-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;flex-wrap:wrap;gap:14px}
+.listings-header h2{font-family:var(--font-display);font-size:2.2rem}
+.filters-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.filter-btn{padding:8px 18px;border-radius:50px;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text);font-family:inherit;font-weight:600;font-size:.85rem;cursor:pointer;transition:.2s}
+.filter-btn.active,.filter-btn:hover{background:var(--gold);color:#0b0c15;border-color:var(--gold)}
+
+/* ---------- PROPERTY DETAILS ---------- */
+.detail-hero{position:relative;height:60vh;min-height:480px;border-radius:var(--radius);overflow:hidden;margin-bottom:40px}
+.detail-hero img{width:100%;height:100%;object-fit:cover}
+.detail-hero .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(11,12,21,.88) 0%,rgba(11,12,21,.3) 60%)}
+.detail-hero-content{position:absolute;bottom:0;left:0;padding:40px;max-width:800px}
+.detail-hero-content h1{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.1;margin-bottom:10px;color:#fff}
+.detail-hero-content .meta-row{display:flex;gap:18px;flex-wrap:wrap;color:var(--text-dim);font-size:.92rem}
+
+.detail-two-col{display:grid;grid-template-columns:1fr 360px;gap:32px}
+@media(max-width:1100px){.detail-two-col{grid-template-columns:1fr}}
+
+.detail-body h2{font-family:var(--font-display);font-size:1.5rem;margin:36px 0 16px;color:#fff;letter-spacing:-1px}
+.detail-body p{color:var(--text-dim);line-height:1.7;margin-bottom:14px;font-size:.97rem}
+.amenities{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.amenity{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:.88rem;color:#ddd;display:flex;align-items:center;gap:10px}
+.amenity i{color:var(--gold)}
+
+/* Gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.gallery img{width:100%;height:160px;object-fit:cover;border-radius:10px;cursor:pointer;transition:.3s;border:1px solid var(--border)}
+.gallery img:hover{transform:scale(1.03);border-color:var(--gold)}
+
+/* Mortgage */
+.mortgage-box{background:linear-gradient(160deg,var(--surface),var(--card));border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+.mortgage-box h3{font-family:var(--font-display);font-size:1.2rem;margin-bottom:14px;color:#fff}
+.mortgage-box input{width:100%;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:inherit;margin-bottom:10px;outline:none}
+.mortgage-box input:focus{border-color:var(--gold)}
+.mortgage-box .result{font-size:1.1rem;color:var(--gold);font-weight:700}
+
+/* Similar */
+.similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-top:24px}
+
+/* ---------- MODALS ---------- */
+.modal-backdrop{position:fixed;inset:0;background:rgba(11,12,21,0.82);backdrop-filter:blur(10px);z-index:2000;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-backdrop.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border-strong);border-radius:24px;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;padding:36px;position:relative;box-shadow:var(--shadow-lg);animation:slideUp .35s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:1rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
+.modal-close:hover{background:var(--gold);color:#0b0c15;border-color:var(--gold)}
+.modal h3{font-family:var(--font-display);font-size:1.4rem;margin-bottom:6px;color:#fff}
+.modal .subtitle{color:var(--text-dim);font-size:.9rem;margin-bottom:18px}
+
+/* Contact card inside modal */
+.contact-card{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.contact-card img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(197,160,89,0.4)}
+.contact-card h4{font-family:var(--font-display);font-size:1.05rem;color:#fff}
+.contact-card .agency{font-size:.82rem;color:var(--gold)}
+.contact-btns{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:14px}
+.btn-icon{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:10px;font-weight:700;font-size:.85rem;text-decoration:none;border:none;cursor:pointer;transition:.2s}
+.btn-call{background:linear-gradient(135deg,#2d7a4d,#1e5c3a);color:#fff}
+.btn-wp{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff}
+.btn-mail{background:linear-gradient(135deg,#4a90e2,#2c5fa8);color:#fff}
+.btn-icon:hover{filter:brightness(1.15);transform:translateY(-2px)}
+
+/* ---------- FORMS ---------- */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-weight:500;font-size:.85rem;color:var(--text-dim);margin-bottom:6px}
+.form-group input, .form-group select, .form-group textarea{width:100%;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;font-family:inherit;font-size:.92rem;outline:none;transition:.2s}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus{border-color:var(--gold);background:rgba(255,255,255,0.1)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group.full{grid-column:span 2}
+
+/* ---------- DASHBOARD ---------- */
+.dashboard-grid{display:grid;grid-template-columns:260px 1fr;gap:28px}
+@media(max-width:1024px){.dashboard-grid{grid-template-columns:1fr}}
+.dash-sidebar{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;align-self:start;position:sticky;top:90px}
+.dash-sidebar h3{font-family:var(--font-display);font-size:1.1rem;margin-bottom:14px;color:#fff}
+.dash-nav{list-style:none;display:flex;flex-direction:column;gap:4px}
+.dash-nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:var(--text-dim);text-decoration:none;font-weight:500;font-size:.92rem;transition:.2s}
+.dash-nav a.active,.dash-nav a:hover{background:rgba(255,255,255,0.06);color:#fff}
+.dash-nav a i{width:22px;text-align:center;color:var(--gold)}
+
+/* ---------- ADMIN ---------- */
+.admin-grid{display:grid;grid-template-columns:260px 1fr;gap:28px}
+@media(max-width:1024px){.admin-grid{grid-template-columns:1fr}}
+.admin-sidebar{background:linear-gradient(180deg,var(--card),#141628);border:1px solid var(--border);border-radius:var(--radius);padding:24px;align-self:start;position:sticky;top:90px}
+.admin-sidebar .logo-mini{font-family:var(--font-display);font-size:1.2rem;color:#fff;margin-bottom:20px}
+.admin-sidebar .logo-mini span{color:var(--gold);font-style:italic}
+.admin-nav{list-style:none;display:flex;flex-direction:column;gap:2px}
+.admin-nav a{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;color:var(--text-dim);text-decoration:none;font-weight:500;font-size:.9rem;transition:.2s}
+.admin-nav a.active,.admin-nav a:hover{background:rgba(255,255,255,0.06);color:#fff}
+.admin-nav a i{width:18px;text-align:center;color:var(--gold);font-size:.9rem}
+
+/* Admin tables */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+thead th{background:rgba(255,255,255,0.05);color:var(--text-dim);font-weight:600;text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);font-size:.82rem;text-transform:uppercase;letter-spacing:.3px}
+tbody td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.05);color:#ddd}
+tbody tr:hover{background:rgba(255,255,255,0.03)}
+.table-btn{padding:6px 12px;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:.2s;display:inline-block}
+.btn-sm-green{background:#2d7a4d;color:#fff}
+.btn-sm-red{background:#8a2d3d;color:#fff}
+.btn-sm-amber{background:rgba(197,160,89,0.2);color:var(--gold);border:1px solid rgba(197,160,89,0.3)}
+
+/* ---------- TOAST ---------- */
+.toast{position:fixed;bottom:28px;right:28px;z-index:3000;background:linear-gradient(135deg,var(--surface),var(--card));border:1px solid var(--border-strong);color:#fff;padding:16px 24px;border-radius:14px;box-shadow:var(--shadow-lg);font-weight:600;display:flex;align-items:center;gap:12px;transform:translateY(120%);opacity:0;transition:all .4s ease;font-size:.95rem;max-width:420px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast i{color:var(--gold);font-size:1.2rem}
+.toast.success i{color:#4caf50}
+.toast.error i{color:#e74c3c}
+
+/* ---------- SCROLL TOP ---------- */
+.scroll-top{position:fixed;bottom:26px;left:26px;z-index:900;width:44px;height:44px;border-radius:50%;background:var(--gold);color:#0b0c15;border:none;font-size:1.1rem;cursor:pointer;box-shadow:0 8px 24px rgba(197,160,89,0.35);opacity:0;pointer-events:none;transition:.3s;display:inline-flex;align-items:center;justify-content:center}
+.scroll-top.visible{opacity:1;pointer-events:auto}
+.scroll-top:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(197,160,89,0.45)}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:1100px){.search-widget{bottom:-48px}.hero{height:auto;min-height:600px;padding:100px 0 120px}}
+@media(max-width:860px){.nav-links{display:none;position:absolute;top:72px;left:0;right:0;background:rgba(11,12,21,0.95);backdrop-filter:blur(20px);flex-direction:column;gap:8px;padding:24px;border-bottom:1px solid var(--border);align-items:flex-start}.nav-links.open{display:flex}.menu-toggle{display:block}.search-widget{flex-direction:column;padding:20px}.search-widget input{width:100%}.detail-two-col{grid-template-columns:1fr}}
+@media(max-width:720px){.section{padding:70px 0 20px}.grid-3{grid-template-columns:1fr}.grid-4{grid-template-columns:1fr 1fr}.stats-grid{grid-template-columns:1fr 1fr}.form-row{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}.hero h1{font-size:2.8rem}}
+
+/* ---------- ADMIN FORMS / MEDIA MANAGER ---------- */
+.admin-form{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:30px;max-width:900px;display:grid;grid-template-columns:1fr;gap:2px}
+.admin-form .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.admin-form .form-row{grid-template-columns:1fr}}
+.form-section-title{font-family:var(--font-display);font-size:1.05rem;color:var(--gold);margin:24px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;letter-spacing:.3px}
+.form-section-title:first-child{margin-top:0}
+.admin-form textarea{width:100%;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;font-family:inherit;font-size:.92rem;outline:none;resize:vertical}
+.admin-form textarea:focus{border-color:var(--gold)}
+.upload-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 14px;border-radius:8px;background:rgba(197,160,89,0.15);border:1px dashed rgba(197,160,89,0.5);color:var(--gold);font-size:.8rem;font-weight:600;cursor:pointer;transition:.2s;width:auto}
+.upload-btn:hover{background:rgba(197,160,89,0.28);border-style:solid}
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.media-item{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:.25s}
+.media-item:hover{border-color:rgba(197,160,89,.45);transform:translateY(-4px)}
+.media-item img{width:100%;height:140px;object-fit:cover;border-radius:0}
+
+/* ---------- FLOATING WHATSAPP ---------- */
+.float-wa{position:fixed;bottom:26px;right:26px;z-index:900;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 10px 30px rgba(37,211,102,.4);text-decoration:none;transition:.25s}
+.float-wa:hover{transform:scale(1.08) translateY(-3px)}
+
+/* Dark mode toggle helper (always dark for this premium theme) */
+.dark{color-scheme:dark}
+</style>
+</head>
+
+<body class="dark">
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar" id="navbar" aria-label="Primary">
+  <div class="container nav-inner">
+    <a href="#" onclick="navigate('home');return false" class="logo" data-logo>Dream <span>Ledger</span></a>
+    <ul class="nav-links" id="navLinks" role="menubar">
+      <li><a href="#" onclick="navigate('home');return false" id="nav-home" class="active">Home</a></li>
+      <li><a href="#" onclick="navigate('listings');return false" id="nav-listings">Listings</a></li>
+      <li><a href="#" onclick="navigate('about');return false" id="nav-about">About</a></li>
+      <li><a href="#" onclick="navigate('contact');return false" id="nav-contact">Contact</a></li>
+    </ul>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="#" onclick="openLogin();return false" class="nav-btn-ghost">Login</a>
+      <a href="#" onclick="navigate('listings');return false" class="nav-btn">Buy / Rent</a>
+      <button class="menu-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===================== PAGES ===================== -->
+
+<!-- -------------------- HOME -------------------- -->
+<section id="page-home" class="page active">
+
+  <!-- Hero -->
+  <header class="hero" role="banner" aria-label="Hero">
+    <div class="hero-bg"><img id="heroImage" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop" alt="Luxury home" /></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <div class="hero-label"><i class="fa-solid fa-star"></i> India's Most Trusted Premium Portal</div>
+      <h1 id="heroTitle">Discover <em>Luxury Living</em> Beyond Imagination</h1>
+      <p id="heroSubtitle">Browse 50+ curated premium properties — from modern apartments to heritage villas — with instant contact, virtual tours, and verified owners.</p>
+      <div class="hero-btns">
+        <a href="#" onclick="navigate('listings');return false" class="btn-primary"><i class="fa-solid fa-building-columns"></i> Explore Listings</a>
+        <a href="#" onclick="navigate('contact');return false" class="btn-secondary"><i class="fa-solid fa-phone"></i> Talk to Our Team</a>
+      </div>
+    </div>
+
+    <!-- Search Widget -->
+    <div class="search-widget" role="search" aria-label="Property search">
+      <input id="searchCity" type="text" placeholder="City / Area / Address" oninput="doSearch(this.value)" />
+      <select id="searchType" onchange="doSearch()" aria-label="Property type filter">
+        <option value="">Any Type</option>
+        <option value="Apartment">Apartment</option>
+        <option value="Villa">Villa</option>
+        <option value="House">House</option>
+        <option value="Flat">Flat</option>
+        <option value="Bungalow">Bungalow</option>
+        <option value="Commercial">Commercial</option>
+        <option value="Land">Land</option>
+      </select>
+      <select id="searchPurpose" onchange="doSearch()" aria-label="Buy or rent filter">
+        <option value="">Buy / Rent</option>
+        <option value="Buy">Buy</option>
+        <option value="Rent">Rent</option>
+      </select>
+      <button onclick="navigate('listings');searchFromWidget()">Search <i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </header>
+
+  <!-- Featured -->
+  <section class="section" aria-label="Featured properties">
+    <div class="container">
+      <div class="section-title"><h2>Curated <em>Featured</em> Homes</h2><p>Hand-picked luxury spaces that define modern living.</p></div>
+      <div class="grid-3" id="featuredGrid"></div>
+    </div>
+  </section>
+
+  <!-- Latest -->
+  <section class="section" aria-label="Latest properties" style="padding-top:40px">
+    <div class="container">
+      <div class="section-title"><h2>Latest <em>Arrivals</em></h2><p>Fresh listings updated daily with full details.</p></div>
+      <div class="grid-3" id="latestGrid"></div>
+    </div>
+  </section>
+
+  <!-- Popular Cities -->
+  <section class="section" aria-label="Popular cities" style="padding-top:30px"><div class="container"><div class="section-title"><h2>Browse <em>Cities</em></h2><p>Explore by the places you love.</p></div><div class="cities" id="cityPills"></div></div></section>
+
+  <!-- Featured Agents -->
+  <section class="section" aria-label="Featured agents" style="padding-top:30px"><div class="container"><div class="section-title"><h2>Featured <em>Agents</em></h2><p>Connect with verified property experts.</p></div><div class="grid-4" id="agentGrid"></div></div></section>
+
+  <!-- Why Choose -->
+  <section class="section" aria-label="Why choose us"><div class="container"><div class="section-title"><h2>Why <em>Choose</em> Us</h2><p>Every detail is designed for your peace of mind.</p></div><div class="grid-4" id="whyGrid"></div></div></section>
+
+  <!-- Testimonials -->
+  <section class="section" aria-label="Testimonials" style="padding-top:30px"><div class="container"><div class="section-title"><h2>Client <em>Testimonials</em></h2><p>What buyers and sellers say about Dream Ledger.</p></div><div class="grid-3" id="testiGrid"></div></div></section>
+
+  <!-- Stats -->
+  <section class="section" aria-label="Statistics" style="padding-top:30px"><div class="container"><div class="stats-grid" id="statsGrid"></div></div></section>
+
+  <!-- Newsletter -->
+  <section class="section" aria-label="Newsletter" style="padding-top:30px"><div class="container" style="max-width:720px;text-align:center"><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:8px;color:#fff">Stay Ahead of the <em style="font-style:italic;color:var(--gold)">Market</em></h2><p style="color:var(--text-dim);margin-bottom:24px">Weekly listings, price trends, and exclusive offers delivered to your inbox.</p><form onsubmit="subscribeNews(event)" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><input type="email" placeholder="Your email address" required style="flex:1 1 260px;padding:14px 18px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:inherit;outline:none" /><button type="submit" class="btn-primary" style="padding:14px 28px">Subscribe</button></form></div></section>
+
+</section>
+
+<!-- -------------------- LISTINGS -------------------- -->
+<section id="page-listings" class="page"><div class="container" style="padding-top:100px">
+  <div class="listings-header"><h2>Property <em>Listings</em></h2><a href="#" onclick="navigate('home');return false" class="nav-btn-ghost">Back to Home</a></div>
+  <div class="filters-bar" id="filterBar"></div>
+  <div class="search-widget" style="bottom:auto;position:static;margin-bottom:24px;display:flex" aria-label="Search listings">
+    <input id="listSearch" type="text" placeholder="Search property, owner, city..." oninput="filterProperties()" />
+    <select id="listSort" onchange="filterProperties()" aria-label="Sort"><option value="">Sort</option><option value="price-asc">Price Low → High</option><option value="price-desc">Price High → Low</option><option value="newest">Newest</option><option value="rating">Top Rated</option></select>
+    <button onclick="filterProperties()">Apply</button>
+  </div>
+  <div class="grid-3" id="listingsGrid"></div>
+  <div style="text-align:center;margin-top:40px"><button onclick="loadMore()" class="btn-secondary">Load More <i class="fa-solid fa-chevron-down"></i></button></div>
+</div></section>
+
+<!-- -------------------- DETAILS -------------------- -->
+<section id="page-details" class="page"><div class="container" style="padding-top:100px">
+  <div id="detailView"></div>
+</div></section>
+
+<!-- -------------------- FAVOURITES -------------------- -->
+<section id="page-favourites" class="page"><div class="container" style="padding-top:100px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:14px"><h2>Saved <em>Favourites</em></h2><button onclick="clearFavourites()" class="btn-secondary">Clear All</button></div>
+  <div id="favGrid" class="grid-3"></div>
+</div></section>
+
+<!-- -------------------- ABOUT -------------------- -->
+<section id="page-about" class="page"><div class="container" style="padding-top:100px"><h2 style="font-family:var(--font-display);font-size:2.8rem;margin-bottom:20px">About <em style="font-style:italic;color:var(--gold)">Dream Ledger</em></h2>
+<p style="color:var(--text-dim);font-size:1.05rem;max-width:780px;margin-bottom:30px">We are a premium real estate portal dedicated to connecting discerning buyers with exceptional properties. Since 2018, we've facilitated over 2,500 transactions across India.</p>
+<div class="grid-4" id="aboutFeatures"></div>
+<section class="section" style="padding:40px 0"><div class="container"><div class="section-title"><h2>Our <em>Mission</em></h2><p>Making luxury real estate transparent, accessible, and beautiful.</p></div><p style="color:var(--text-dim);max-width:900px;margin:0 auto;line-height:1.75;font-size:1.05rem">Dream Ledger combines deep market expertise with elegant technology. From curated listings to verified owners, we ensure every interaction is exceptional. Our agents are hand-selected for their local knowledge and integrity.</p></div></section>
+</div></section>
+
+<!-- -------------------- CONTACT -------------------- -->
+<section id="page-contact" class="page"><div class="container" style="padding-top:100px"><h2 style="font-family:var(--font-display);font-size:2.6rem;margin-bottom:10px">Get in <em style="font-style:italic;color:var(--gold)">Touch</em></h2><p style="color:var(--text-dim);margin-bottom:30px">Questions about a property? Reach our team directly.</p>
+<div style="display:grid;grid-template-columns:1fr 420px;gap:30px;align-items:start"><div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:30px"><form onsubmit="sendContact(event)"><div class="form-row"><div class="form-group"><label for="cName">Name</label><input id="cName" type="text" required /></div><div class="form-group"><label for="cEmail">Email</label><input id="cEmail" type="email" required /></div></div><div class="form-group"><label for="cPhone">Phone</label><input id="cPhone" type="tel" /></div><div class="form-group"><label for="cMsg">Message</label><textarea id="cMsg" rows="4" style="width:100%;border-radius:10px;padding:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;font-family:inherit;outline:none" required></textarea></div><button type="submit" class="btn-primary" style="width:100%;padding:14px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Send Message</button></form></div>
+<div><div class="contact-card"><i class="fa-solid fa-location-dot" style="font-size:1.4rem;color:var(--gold)"></i><div><h4>Head Office</h4><p id="siteAddress" style="font-size:.9rem;color:var(--text-dim)">42 Premium Tower, Bandra West<br/>Mumbai, Maharashtra 400050</p></div></div>
+<div class="contact-card"><i class="fa-solid fa-phone" style="font-size:1.4rem;color:var(--gold)"></i><div><h4>Phone</h4><p id="sitePhone" style="font-size:.9rem;color:var(--text-dim)">+91 98765 43210</p></div></div>
+<div class="contact-card"><i class="fa-solid fa-envelope" style="font-size:1.4rem;color:var(--gold)"></i><div><h4>Email</h4><p id="siteEmail" style="font-size:.9rem;color:var(--text-dim)">hello@luxeliving.in</p></div></div></div></div></div></section>
+
+<!-- -------------------- LOGIN -------------------- -->
+<section id="page-login" class="page"><div class="container" style="padding-top:100px;display:flex;justify-content:center"><div style="width:100%;max-width:460px"><h2 style="font-family:var(--font-display);font-size:2.2rem;margin-bottom:6px">Welcome Back</h2><p style="color:var(--text-dim);margin-bottom:28px">Sign in to save favourites, manage profile, and get alerts.</p>
+<form onsubmit="doLogin(event)" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px">
+<div class="form-group"><label for="lEmail">Email</label><input id="lEmail" type="email" required /></div>
+<div class="form-group"><label for="lPass">Password</label><input id="lPass" type="password" required /></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:.85rem"><label style="display:flex;align-items:center;gap:8px;color:var(--text-dim);cursor:pointer"><input type="checkbox" id="lRemember" /> Remember me</label><a href="#" onclick="alert('Reset link sent to your registered email.');return false" style="color:var(--gold);text-decoration:none">Forgot password?</a></div>
+<button type="submit" class="btn-primary" style="width:100%;padding:14px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Login</button>
+<p style="text-align:center;margin-top:16px;color:var(--text-dim);font-size:.85rem">New here? <a href="#" onclick="navigate('register');return false" style="color:var(--gold);font-weight:600">Create account</a></p>
+</form></div></div></section>
+
+<!-- -------------------- REGISTER -------------------- -->
+<section id="page-register" class="page"><div class="container" style="padding-top:100px;display:flex;justify-content:center"><div style="width:100%;max-width:460px"><h2 style="font-family:var(--font-display);font-size:2.2rem;margin-bottom:6px">Join Dream Ledger</h2><p style="color:var(--text-dim);margin-bottom:28px">Create your account to unlock favourites, alerts, and profile.</p>
+<form onsubmit="doRegister(event)" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px">
+<div class="form-row"><div class="form-group"><label for="rName">Full Name</label><input id="rName" type="text" required /></div><div class="form-group"><label for="rPhone">Phone</label><input id="rPhone" type="tel" required /></div></div>
+<div class="form-group"><label for="rEmail">Email</label><input id="rEmail" type="email" required /></div>
+<div class="form-row"><div class="form-group"><label for="rPass">Password</label><input id="rPass" type="password" required /></div><div class="form-group"><label for="rPass2">Confirm Password</label><input id="rPass2" type="password" required /></div></div>
+<button type="submit" class="btn-primary" style="width:100%;padding:14px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Create Account</button>
+<p style="text-align:center;margin-top:16px;color:var(--text-dim);font-size:.85rem">Already have an account? <a href="#" onclick="navigate('login');return false" style="color:var(--gold);font-weight:600">Login</a></p>
+</form></div></div></section>
+
+<!-- -------------------- USER DASHBOARD -------------------- -->
+<section id="page-dashboard" class="page"><div class="container" style="padding-top:100px"><div class="dashboard-grid"><aside class="dash-sidebar" aria-label="Dashboard navigation"><h3>User Menu</h3><ul class="dash-nav">
+<li><a href="#" onclick="showDashTab('overview');return false" class="active" id="tab-overview"><i class="fa-solid fa-chart-line"></i> Overview</a></li>
+<li><a href="#" onclick="showDashTab('favourites');return false" id="tab-favourites"><i class="fa-solid fa-heart"></i> My Favourites</a></li>
+<li><a href="#" onclick="showDashTab('recent');return false" id="tab-recent"><i class="fa-solid fa-clock-rotate-left"></i> Recently Viewed</a></li>
+<li><a href="#" onclick="showDashTab('visits');return false" id="tab-visits"><i class="fa-solid fa-calendar-check"></i> Scheduled Visits</a></li>
+<li><a href="#" onclick="showDashTab('settings');return false" id="tab-settings"><i class="fa-solid fa-gear"></i> Settings</a></li>
+<li><a href="#" onclick="navigate('profile');return false" id="tab-profile"><i class="fa-solid fa-user"></i> Profile</a></li>
+<li><a href="#" onclick="logout();return false" style="color:#e74c3c"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+</ul></aside>
+<main>
+  <div id="dash-overview"><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">Dashboard</h2><p style="color:var(--text-dim);margin-bottom:24px">Welcome back, <strong style="color:#fff" id="dashName">Guest</strong>.</p><div class="grid-4" id="dashCards"></div></div>
+  <div id="dash-favourites" style="display:none"><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">My Favourites</h2><div id="dashFavList" class="grid-3"></div></div>
+  <div id="dash-recent" style="display:none"><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">Recently Viewed</h2><div id="dashRecentList" class="grid-3"></div></div>
+  <div id="dash-visits" style="display:none"><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">Scheduled Visits</h2><div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px"><table><thead><tr><th>Property</th><th>Date</th><th>Time</th><th>Status</th></tr></thead><tbody id="dashVisitsBody"></tbody></table></div></div>
+  <div id="dash-settings" style="display:none"><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">Settings</h2><form onsubmit="saveSettings(event)" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:560px"><div class="form-group"><label for="setNoti">Email Notifications</label><select id="setNoti"><option>All</option><option>Important only</option><option>None</option></select></div><button type="submit" class="btn-primary">Save Preferences</button></form></div>
+</main></div></div></section>
+
+<!-- -------------------- PROFILE -------------------- -->
+<section id="page-profile" class="page"><div class="container" style="padding-top:100px"><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">My <em style="font-style:italic;color:var(--gold)">Profile</em></h2><div style="display:grid;grid-template-columns:320px 1fr;gap:28px;align-items:start"><aside style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center"><img id="profImg" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop" alt="Profile" style="width:120px;height:120px;border-radius:50%;object-fit:cover;margin:0 auto 14px;border:3px solid rgba(197,160,89,0.3)" /><h3 id="profName" style="font-family:var(--font-display);font-size:1.2rem">Alex Patel</h3><p id="profEmail" style="color:var(--text-dim);font-size:.9rem">alex@example.com</p><p id="profPhone" style="color:var(--text-dim);font-size:.9rem">+91 98765 43210</p></aside>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:30px"><form onsubmit="updateProfile(event)"><div class="form-row"><div class="form-group"><label>Name</label><input id="pName" type="text" value="Alex Patel" /></div><div class="form-group"><label>Phone</label><input id="pPhone" type="tel" value="+91 98765 43210" /></div></div><div class="form-group"><label>Email</label><input id="pEmail" type="email" value="alex@example.com" /></div><div class="form-group"><label>Profile Image URL</label><input id="pImgUrl" type="text" value="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop" /></div><button type="submit" class="btn-primary">Update Profile</button></form><hr style="border:0;border-top:1px solid var(--border);margin:24px 0" /><h3 style="font-family:var(--font-display);font-size:1.1rem;color:#fff;margin-bottom:14px">Change Password</h3><form onsubmit="changePassword(event)"><div class="form-row"><div class="form-group"><label>Current</label><input type="password" id="cpOld" required /></div><div class="form-group"><label>New</label><input type="password" id="cpNew" required /></div></div><button type="submit" class="btn-primary" style="background:linear-gradient(135deg,#5a3e8a,#3d2a6e)">Update Password</button></form></div></div></div></section>
+
+<!-- -------------------- ADMIN LOGIN -------------------- -->
+<section id="page-admin-login" class="page"><div class="container" style="padding-top:100px;display:flex;justify-content:center"><div style="width:100%;max-width:420px"><h2 style="font-family:var(--font-display);font-size:2.2rem;margin-bottom:6px">Admin <em style="font-style:italic;color:var(--gold)">Login</em></h2><p style="color:var(--text-dim);margin-bottom:28px">Restricted access for property management.</p>
+<form onsubmit="doAdminLogin(event)" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px"><div class="form-group"><label for="aUser">Username</label><input id="aUser" type="text" value="admin" /></div><div class="form-group"><label for="aPass">Password</label><input id="aPass" type="password" value="admin123" /></div><button type="submit" class="btn-primary" style="width:100%;padding:14px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Login</button><p style="margin-top:12px;color:var(--text-ghost);font-size:.8rem">Demo: admin / admin123</p></form></div></div></section>
+
+<!-- -------------------- ADMIN DASHBOARD -------------------- -->
+<section id="page-admin" class="page"><div class="container" style="padding-top:100px"><div class="admin-grid"><aside class="admin-sidebar" aria-label="Admin navigation"><div class="logo-mini">Dream <span>Admin</span></div>
+<ul class="admin-nav">
+<li><a href="#" onclick="adminTab('dashboard');return false" class="active" id="ad-dash"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+<li><a href="#" onclick="adminTab('properties');return false" id="ad-props"><i class="fa-solid fa-building"></i> Properties</a></li>
+<li><a href="#" onclick="adminTab('add');return false" id="ad-add"><i class="fa-solid fa-plus-circle"></i> Add Property</a></li>
+<li><a href="#" onclick="adminTab('agents');return false" id="ad-agents"><i class="fa-solid fa-user-tie"></i> Agents</a></li>
+<li><a href="#" onclick="adminTab('media');return false" id="ad-media"><i class="fa-solid fa-images"></i> Media / Images</a></li>
+<li><a href="#" onclick="adminTab('users');return false" id="ad-users"><i class="fa-solid fa-users"></i> Users</a></li>
+<li><a href="#" onclick="adminTab('contacts');return false" id="ad-contacts"><i class="fa-solid fa-envelope"></i> Requests</a></li>
+<li><a href="#" onclick="adminTab('testimonials');return false" id="ad-testimonials"><i class="fa-solid fa-comment-dots"></i> Testimonials</a></li>
+<li><a href="#" onclick="adminTab('settings');return false" id="ad-settings"><i class="fa-solid fa-gear"></i> Settings</a></li>
+<li><a href="#" onclick="adminLogout();return false" style="color:#e74c3c;margin-top:8px"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+</ul></aside>
+<main id="adminMain"></main></div></div></section>
+
+<!-- ===================== MODALS ===================== -->
+
+<!-- Contact / Owner Modal -->
+<div id="modalContact" class="modal-backdrop" onclick="if(event.target===this)closeModal('modalContact')" aria-modal="true" role="dialog" aria-label="Contact owner">
+  <div class="modal" role="document" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('modalContact')" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div id="contactContent"></div>
+  </div>
+</div>
+
+<!-- Property Details Modal (mobile / quick view) -->
+<div id="modalDetail" class="modal-backdrop" onclick="if(event.target===this)closeModal('modalDetail')" aria-modal="true" role="dialog" aria-label="Property details">
+  <div class="modal" role="document" onclick="event.stopPropagation()" style="max-width:720px">
+    <button class="modal-close" onclick="closeModal('modalDetail')" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div id="detailModalContent"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast" role="status" aria-live="polite"><i class="fa-solid fa-circle-check"></i><span id="toastMsg">Done</span></div>
+
+<!-- Scroll to top -->
+<button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- Floating WhatsApp (number controlled from Admin → Settings) -->
+<a id="floatWhatsapp" class="float-wa" href="https://wa.me/919876543210" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer" aria-label="Footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand" data-logo>Dream <span>Ledger</span></div>
+        <p id="footerAbout" style="color:var(--text-dim);font-size:.92rem;line-height:1.65">India's premium destination for luxury properties. Verified listings, expert agents, and elegant tools.</p>
+        <div class="footer-social"><a href="#" data-social="facebook" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" data-social="instagram" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" data-social="linkedin" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a><a href="#" data-social="twitter" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a></div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#" onclick="navigate('listings');return false">Buy Property</a>
+        <a href="#" onclick="navigate('listings');return false">Rent Property</a>
+        <a href="#" onclick="navigate('listings');return false">New Projects</a>
+        <a href="#" onclick="navigate('listings');return false">Commercial</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#" onclick="navigate('about');return false">About Us</a>
+        <a href="#" onclick="navigate('contact');return false">Contact</a>
+        <a href="#" onclick="navigate('register');return false">Careers</a>
+        <a href="#" onclick="navigate('login');return false">Partner Login</a>
+        <a href="admin.html" style="color:var(--gold)"><i class="fa-solid fa-lock"></i> Admin Panel</a>
+      </div>
+      <div>
+        <h4>Property Types</h4>
+        <a href="#" onclick="navigate('listings');return false">Apartments</a>
+        <a href="#" onclick="navigate('listings');return false">Villas</a>
+        <a href="#" onclick="navigate('listings');return false">Houses</a>
+        <a href="#" onclick="navigate('listings');return false">Commercial</a>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Dream Ledger. All rights reserved.</span><span>Designed for luxury.</span></div>
+  </div>
+</footer>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+/* ============================================================
+   DATA SETUP
+============================================================ */
+const IMAGES = [
+  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600649681315-6204b2a4b1e5?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?q=80&w=2074&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2070&auto=format&fit=crop"
+];
+
+const CITIES = ["Mumbai","Delhi","Bangalore","Hyderabad","Chennai","Pune","Kolkata","Jaipur","Ahmedabad","Lucknow"];
+
+const OWNERS = [
+  {name:"Raj Mehta",email:"raj@dreamledger.in",phone:"9876543210",whatsapp:"9876543210",agency:"Dream Ledger Properties",address:"Mumbai"},
+  {name:"Sneha Rao",email:"sneha@luxeliving.in",phone:"9876543211",whatsapp:"9876543211",agency:"Golden Keys",address:"Bangalore"},
+  {name:"Vikram Das",email:"vikram@luxeliving.in",phone:"9876543212",whatsapp:"9876543212",agency:"Urban Estates",address:"Delhi"},
+  {name:"Aisha Khan",email:"aisha@luxeliving.in",phone:"9876543213",whatsapp:"9876543213",agency:"Vista Homes",address:"Hyderabad"},
+  {name:"Arun Sharma",email:"arun@luxeliving.in",phone:"9876543214",whatsapp:"9876543214",agency:"Royal Realty",address:"Chennai"},
+  {name:"Meera Patel",email:"meera@luxeliving.in",phone:"9876543215",whatsapp:"9876543215",agency:"Prime Homes",address:"Pune"},
+  {name:"Jitesh Nair",email:"jitesh@luxeliving.in",phone:"9876543216",whatsapp:"9876543216",agency:"Skyline Group",address:"Kolkata"},
+  {name:"Rita Sen",email:"rita@luxeliving.in",phone:"9876543217",whatsapp:"9876543217",agency:"Heritage Homes",address:"Jaipur"},
+  {name:"Kiran Babu",email:"kiran@luxeliving.in",phone:"9876543218",whatsapp:"9876543218",agency:"Metro Estates",address:"Ahmedabad"},
+  {name:"Neha Gupta",email:"neha@luxeliving.in",phone:"9876543219",whatsapp:"9876543219",agency:"Silver Nest",address:"Lucknow"}
+];
+
+const AGENTS = [
+  {name:"Amit Verma",role:"Senior Consultant",img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop",bio:"Specializes in luxury apartments and commercial spaces."},
+  {name:"Priya Nanda",role:"Property Advisor",img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2070&auto=format&fit=crop",bio:"Expert in villas and independent houses across South India."},
+  {name:"Rohit Bose",role:"Market Analyst",img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=2070&auto=format&fit=crop",bio:"Data-driven insights for smart investments."},
+  {name:"Divya Reddy",role:"Broker",img:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop",bio:"Handles high-value transactions with discretion."}
+];
+
+const TESTIMONIALS = [
+  {name:"Anjali Mehta",city:"Mumbai",text:"Dream Ledger made finding our dream home effortless. The listings were accurate and the owner responses were instant.",rating:5,img:"https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop"},
+  {name:"Rahul Joshi",city:"Delhi",text:"The mortgage calculator and detailed property pages saved us hours of research. Highly recommended.",rating:5,img:"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop"},
+  {name:"Kiran Rao",city:"Bangalore",text:"We loved the glassmorphism design and the smooth experience. Our agent was exceptional.",rating:5,img:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop"},
+  {name:"Sophia Lin",city:"Chennai",text:"Good prices, verified owners, and beautiful cards. I'll be recommending this to everyone.",rating:4,img:"https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200&auto=format&fit=crop"}
+];
+
+function generateProperties(){
+  const types=["Apartment","Villa","House","Flat","Bungalow","Commercial","Land","Plot","Farm House","Office","Shop","Warehouse"];
+  const purposes=["Buy","Rent"];
+  const amenities=["Gym","Pool","Parking","Garden","Security","Lift","Power Backup","Clubhouse","Gym","Wifi","Play Area","CCTV"];
+  const props=[];
+  for(let i=1;i<=50;i++){
+    const city=CITIES[(i-1)%CITIES.length];
+    const type=types[(i%types.length)];
+    const purpose=purposes[i%2];
+    const ownerBase=OWNERS[(i%OWNERS.length)];
+    const ownerPics=["https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop","https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=200&auto=format&fit=crop","https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop","https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"];
+    const owner={...ownerBase,img:ownerPics[i%ownerPics.length]};
+    const beds=Math.floor(Math.random()*5)+1;
+    const baths=Math.floor(Math.random()*3)+1;
+    const area=Math.floor(Math.random()*3000)+800;
+    const price=(purpose==="Buy")?(Math.floor(Math.random()*12)+2)*10000000:(Math.floor(Math.random()*80)+15)*10000;
+    const status=i%7===0?"Sold":(i%5===0?"Rented":"Available");
+    const rating=(Math.random()*1.5+3.5).toFixed(1);
+    const featured=i<=6;
+    props.push({id:i,title:`Premium ${type} in ${city}`,type,city,state:city,location:`${city}, ${stateFor(city)}`,address:`${Math.floor(Math.random()*999)+1} ${city} Road`,purpose,status,price,bedrooms:beds,bathrooms:baths,area,parking:Math.floor(Math.random()*3)+1,yearBuilt:2018+Math.floor(Math.random()*6),rating:Number(rating),featured,owner,mainImage:IMAGES[i%IMAGES.length],gallery:[IMAGES[(i+2)%IMAGES.length],IMAGES[(i+5)%IMAGES.length],IMAGES[(i+7)%IMAGES.length]],amenities:amenities.sort(()=>Math.random()-0.5).slice(0,6),nearby:{school:"Green Valley School",hospital:"Apollo Hospital",metro:"Metro Station",market:"Local Market"},lat:18.9+Math.random()*0.4,long:72.8+Math.random()*0.4,created:Date.now()-(i*86400000),views:Math.floor(Math.random()*12000)+400});
+  }
+  return props;
+}
+function stateFor(city){const m={Mumbai:"Maharashtra",Delhi:"Delhi",Bangalore:"Karnataka",Hyderabad:"Telangana",Chennai:"Tamil Nadu",Pune:"Maharashtra",Kolkata:"West Bengal",Jaipur:"Rajasthan",Ahmedabad:"Gujarat",Lucknow:"Uttar Pradesh"};return m[city]||"India";}
+
+/* ============================================================
+   LOCALSTORAGE DATABASE
+============================================================ */
+function ls(key,val){
+  try{if(val===undefined)return JSON.parse(localStorage.getItem(key)||'null');localStorage.setItem(key,JSON.stringify(val));}catch(e){console.error(e)}
+  return val;
+}
+
+function initDB(){
+  if(!ls('estate_users')){
+    const users=[{id:1,name:"Alex Patel",email:"alex@example.com",phone:"9876543210",password:"123456",role:"user",img:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop",favourites:[],visited:[1,3,7],created:Date.now()}];
+    ls('estate_users',users);
+  }
+  if(!ls('estate_properties')) ls('estate_properties',generateProperties());
+  if(!ls('estate_favourites')) ls('estate_favourites',{}); // userId -> [ids]
+  if(!ls('estate_contacts')) ls('estate_contacts',[]);
+  if(!ls('estate_agents')) ls('estate_agents',AGENTS);
+  if(!ls('estate_testimonials')) ls('estate_testimonials',TESTIMONIALS);
+  if(!ls('estate_settings')) ls('estate_settings',{
+    siteName:"Dream Ledger", logoText:"Dream", logoAccent:"Ledger", logoImage:"",
+    email:"hello@luxeliving.in", phone:"+91 98765 43210", whatsapp:"919876543210",
+    address:"42 Premium Tower, Bandra West, Mumbai, Maharashtra 400050",
+    facebook:"#", instagram:"#", linkedin:"#", twitter:"#",
+    heroImage:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop",
+    heroTitle:"Discover Luxury Living Beyond Imagination",
+    heroSubtitle:"Browse curated premium properties — from modern apartments to heritage villas — with instant contact, virtual tours, and verified owners.",
+    ownerFallbackImage:"https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop",
+    footerAbout:"India's premium destination for luxury properties. Verified listings, expert agents, and elegant tools."
+  });
+  if(!ls('estate_admin')) ls('estate_admin',{loggedIn:false});
+}
+
+/* Shortcut accessors for admin-managed collections */
+const DB={
+  props:()=>ls('estate_properties')||[],
+  saveProps:v=>ls('estate_properties',v),
+  agents:()=>ls('estate_agents')||[],
+  saveAgents:v=>ls('estate_agents',v),
+  testis:()=>ls('estate_testimonials')||[],
+  saveTestis:v=>ls('estate_testimonials',v),
+  settings:()=>ls('estate_settings')||{},
+  saveSettings:v=>ls('estate_settings',v)
+};
+
+/* ============================================================
+   APPLY GLOBAL SETTINGS (logo, hero, contact details, socials)
+============================================================ */
+function applySettings(){
+  const s=DB.settings();
+  // Navbar + footer logo
+  const logoHTML=s.logoImage
+    ? `<img src="${s.logoImage}" alt="${s.siteName}" style="height:38px;width:auto;border-radius:8px" />`
+    : `${s.logoText||'Dream'}<span>${s.logoAccent||'Ledger'}</span>`;
+  document.querySelectorAll('[data-logo]').forEach(el=>el.innerHTML=logoHTML);
+  document.title = (s.siteName||'Dream Ledger')+" — Premium Real Estate Portal";
+  // Hero
+  const heroImg=document.getElementById('heroImage'); if(heroImg&&s.heroImage) heroImg.src=s.heroImage;
+  const heroT=document.getElementById('heroTitle'); if(heroT&&s.heroTitle) heroT.innerHTML=s.heroTitle.replace(/\*\*(.+?)\*\*/g,'<em style="font-style:italic;color:var(--gold)">$1</em>');
+  const heroSub=document.getElementById('heroSubtitle'); if(heroSub&&s.heroSubtitle) heroSub.textContent=s.heroSubtitle;
+  // Contact page details
+  const set=(id,val)=>{const e=document.getElementById(id); if(e&&val) e.innerHTML=val;};
+  set('siteAddress',(s.address||'').replace(/,\s*/g,',<br/>'));
+  set('sitePhone',s.phone);
+  set('siteEmail',s.email);
+  set('footerAbout',s.footerAbout);
+  // Socials
+  const soc={facebook:s.facebook,instagram:s.instagram,linkedin:s.linkedin,twitter:s.twitter};
+  document.querySelectorAll('[data-social]').forEach(a=>{const k=a.getAttribute('data-social'); if(soc[k]) a.href=soc[k];});
+  // Floating whatsapp
+  const fw=document.getElementById('floatWhatsapp');
+  if(fw&&s.whatsapp) fw.href=`https://wa.me/${String(s.whatsapp).replace(/\D/g,'')}?text=Hello,%20I%20am%20interested%20in%20a%20property.%20Please%20share%20more%20details.`;
+}
+
+/* ============================================================
+   STATE
+============================================================ */
+let currentUser=null; // {id,name,email...}
+let searchQuery="";
+let currentFilter="All";
+
+function getUser(id){const users=ls('estate_users')||[];return users.find(u=>u.id===id)||null;}
+function getCurrentUser(){if(currentUser)return currentUser;const id=ls('estate_current_user_id');if(id)return getUser(id);return null;}
+
+function setCurrentUser(u){currentUser=u;if(u)ls('estate_current_user_id',u.id);else ls('estate_current_user_id',null);}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+function navigate(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el=document.getElementById('page-'+page);
+  if(el)el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const nav=document.getElementById('nav-'+page);
+  if(nav)nav.classList.add('active');
+  if(page==='listings')renderListings();
+  if(page==='favourites')renderFavourites();
+  if(page==='dashboard'&&currentUser){setDashName();renderDashOverview();showDashTab('overview');}
+  if(page==='profile'&&currentUser)renderProfile();
+  if(page==='admin')renderAdminDashboard();
+  if(page==='home')renderHomeSections();
+}
+
+/* ============================================================
+   RENDER HOME SECTIONS
+============================================================ */
+function renderHomeSections(){
+  const props=ls('estate_properties')||[];
+  const featured=props.filter(p=>p.featured).slice(0,6);
+  const latest=props.slice(0,6);
+  document.getElementById('featuredGrid').innerHTML=featured.map(p=>cardHTML(p)).join('');
+  document.getElementById('latestGrid').innerHTML=latest.map(p=>cardHTML(p)).join('');
+  document.getElementById('cityPills').innerHTML=CITIES.map(c=>`<a href="#" onclick="navigate('listings');setCityFilter('${c}');return false" class="city-pill">${c}</a>`).join('');
+  document.getElementById('agentGrid').innerHTML=DB.agents().map(a=>`<div class="agent-card"><img src="${a.img}" alt="${a.name}"/><h4>${a.name}</h4><div class="role">${a.role}</div><p>${a.bio||''}</p>${a.phone?`<div style="font-size:.82rem;color:var(--text-dim);margin-bottom:8px"><i class="fa-solid fa-phone" style="color:var(--gold)"></i> ${a.phone}</div>`:''}<div class="agent-social"><a href="tel:${(a.phone||'').replace(/\s/g,'')}" aria-label="Call"><i class="fa-solid fa-phone"></i></a><a href="https://wa.me/${String(a.whatsapp||a.phone||'').replace(/\D/g,'')}" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a><a href="mailto:${a.email||''}" aria-label="Email"><i class="fa-solid fa-envelope"></i></a></div></div>`).join('');
+  document.getElementById('whyGrid').innerHTML=`
+    <div class="stat-card"><i class="fa-solid fa-shield-halved"></i><h3>Verified</h3><p>Every property verified by local experts.</p></div>
+    <div class="stat-card"><i class="fa-solid fa-gauge-high"></i><h3>Fast</h3><p>Instant responses and quick scheduling.</p></div>
+    <div class="stat-card"><i class="fa-solid fa-hand-holding-dollar"></i><h3>Transparent</h3><p>No hidden fees or surprises.</p></div>
+    <div class="stat-card"><i class="fa-solid fa-headset"></i><h3>24/7</h3><p>Support anytime, anywhere.</p></div>`;
+  document.getElementById('testiGrid').innerHTML=DB.testis().map(t=>`<div class="t-card"><div class="t-stars">${'<i class="fa-solid fa-star"></i>'.repeat(Math.max(1,Math.min(5,+t.rating||5)))}</div><p>"${t.text}"</p><div class="t-author"><img src="${t.img}" alt="${t.name}"/><div><h5>${t.name}</h5><span>${t.city}</span></div></div></div>`).join('');
+  document.getElementById('statsGrid').innerHTML=`
+    <div class="stat-card"><i class="fa-solid fa-building-columns"></i><h3>50+</h3><p>Premium Properties</p></div>
+    <div class="stat-card"><i class="fa-solid fa-city"></i><h3>10</h3><p>Cities Covered</p></div>
+    <div class="stat-card"><i class="fa-solid fa-user-tie"></i><h3>15</h3><p>Verified Owners</p></div>
+    <div class="stat-card"><i class="fa-solid fa-handshake"></i><h3>2,500+</h3><p>Transactions</p></div>`;
+  renderFilterBar();
+}
+
+/* ============================================================
+   CARD HTML
+============================================================ */
+function cardHTML(p,showFav=true){
+  const favBtn=showFav?`<button onclick="toggleFav(${p.id},event)" aria-label="Save favourite" style="position:absolute;bottom:14px;right:14px;width:40px;height:40px;border-radius:50%;background:rgba(11,12,21,0.7);border:1px solid rgba(255,255,255,0.15);color:#fff;font-size:1rem;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;justify-content:center" title="Save"><i class="fa-${isFav(p.id)?'solid':'regular'} fa-heart" style="color:${isFav(p.id)?'#e74c3c':'#fff'}"></i></button>`:'';
+  return `<article class="card" aria-label="Property ${p.title}">
+    <div class="card-img">
+      <img src="${p.mainImage}" alt="${p.title}" loading="lazy" />
+      <div class="card-badge"><span class="badge ${p.purpose==='Buy'?'badge-gold':''}">${p.purpose}</span><span class="badge">${p.status}</span></div>
+      ${favBtn}
+    </div>
+    <div class="card-body">
+      <div class="card-meta"><span><i class="fa-solid fa-bed"></i> ${p.bedrooms}</span><span><i class="fa-solid fa-bath"></i> ${p.bathrooms}</span><span><i class="fa-solid fa-car"></i> ${p.parking}</span><span><i class="fa-solid fa-ruler-combined"></i> ${p.area.toLocaleString()} sqft</span></div>
+      <h3><a href="#" onclick="showProperty(${p.id});return false">${p.title}</a></h3>
+      <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${p.address}, ${p.city}</div>
+      <div class="card-footer"><span class="card-price">₹${formatPrice(p.price)}<span>${p.purpose==='Rent'?' / mo':''}</span></span><a href="#" onclick="showProperty(${p.id});return false" class="card-btn">View Details <i class="fa-solid fa-arrow-right"></i></a></div>
+    </div>
+  </article>`;
+}
+
+function formatPrice(n){
+  if(n>=10000000) return (n/10000000).toFixed(2)+' Cr';
+  if(n>=100000) return (n/100000).toFixed(1)+' L';
+  return n.toLocaleString();
+}
+
+/* ============================================================
+   SEARCH / FILTER
+============================================================ */
+function renderFilterBar(){
+  const filters=["All","Buy","Rent","Apartment","Villa","House","Flat","Bungalow","Commercial","Land","Plot","Farm House","Office","Shop","Warehouse"];
+  document.getElementById('filterBar').innerHTML=filters.map(f=>`<button onclick="setFilter('${f}')" class="filter-btn ${currentFilter===f?'active':''}">${f}</button>`).join('');
+}
+function setFilter(f){currentFilter=f;renderFilterBar();filterProperties();}
+function setCityFilter(c){searchQuery=c;document.getElementById('searchCity').value=c;filterProperties();}
+function doSearch(val){searchQuery=(val!==undefined)?val:document.getElementById('searchCity').value;filterProperties();}
+function searchFromWidget(){navigate('listings');}
+function filterProperties(){
+  let props=ls('estate_properties')||[];
+  const q=(searchQuery||document.getElementById('searchCity')?.value||'').toLowerCase();
+  const t=document.getElementById('searchType')?.value||'';
+  const p=document.getElementById('searchPurpose')?.value||'';
+  const sort=document.getElementById('listSort')?.value||'';
+
+  if(q)props=props.filter(x=> (x.title||'').toLowerCase().includes(q)||(x.city||'').toLowerCase().includes(q)||(x.address||'').toLowerCase().includes(q)||(x.owner?.name||'').toLowerCase().includes(q));
+  if(t)props=props.filter(x=>x.type===t);
+  if(p)props=props.filter(x=>x.purpose===p);
+  if(currentFilter!=='All'){
+    if(["Buy","Rent"].includes(currentFilter)) props=props.filter(x=>x.purpose===currentFilter);
+    else props=props.filter(x=>x.type===currentFilter||x.type.toLowerCase().includes(currentFilter.toLowerCase()));
+  }
+  if(sort==='price-asc') props.sort((a,b)=>a.price-b.price);
+  if(sort==='price-desc') props.sort((a,b)=>b.price-a.price);
+  if(sort==='newest') props.sort((a,b)=>b.id-a.id);
+  if(sort==='rating') props.sort((a,b)=>b.rating-a.rating);
+
+  document.getElementById('listingsGrid').innerHTML=props.length?props.map(p=>cardHTML(p)).join(''):`<div style="grid-column:span 3;text-align:center;padding:40px;color:var(--text-dim)"><i class="fa-regular fa-folder-open" style="font-size:3rem;color:var(--gold);margin-bottom:12px;display:block"></i>No properties match your filters.</div>`;
+}
+function renderListings(){currentFilter='All';renderFilterBar();filterProperties();}
+function loadMore(){showToast('More listings coming soon.');}
+
+/* ============================================================
+   FAVOURITES
+============================================================ */
+function isFav(id){if(!currentUser)return false;const f=ls('estate_favourites')||{};return (f[currentUser.id]||[]).includes(id);}
+function toggleFav(id,e){if(e)e.stopPropagation();if(!currentUser){showToast('Please login to save favourites.');openLogin();return;}const f=ls('estate_favourites')||{};const arr=f[currentUser.id]||[];const idx=arr.indexOf(id);if(idx>-1){arr.splice(idx,1);showToast('Removed from favourites');}else{arr.push(id);showToast('Saved to favourites');}f[currentUser.id]=arr;ls('estate_favourites',f);if(document.getElementById('page-favourites').classList.contains('active'))renderFavourites();if(document.getElementById('page-listings').classList.contains('active'))filterProperties();if(document.getElementById('dash-favourites').style.display!=='none')renderDashOverview();}
+function renderFavourites(){if(!currentUser){document.getElementById('favGrid').innerHTML='<div style="text-align:center;padding:40px"><h3>Please login</h3><a href="#" onclick="navigate(\'login\');return false" class="btn-primary">Login</a></div>';return;}const f=ls('estate_favourites')||{};const ids=f[currentUser.id]||[];const props=(ls('estate_properties')||[]).filter(p=>ids.includes(p.id));document.getElementById('favGrid').innerHTML=props.length?props.map(p=>cardHTML(p)).join(''):`<div style="text-align:center;padding:40px;color:var(--text-dim)"><i class="fa-regular fa-heart" style="font-size:3rem;color:var(--gold);margin-bottom:12px;display:block"></i>No favourites yet.</div>`;}
+function clearFavourites(){if(!currentUser)return;const f=ls('estate_favourites')||{};f[currentUser.id]=[];ls('estate_favourites',f);renderFavourites();showToast('All favourites cleared');}
+
+/* ============================================================
+   PROPERTY DETAILS
+============================================================ */
+function showProperty(id){
+  const props=ls('estate_properties')||[];
+  const p=props.find(x=>x.id===id);if(!p)return;
+  window.__detailId=id;
+  document.getElementById('detailView').innerHTML=`
+    <div class="detail-hero"><img src="${p.mainImage}" alt="${p.title}" /><div class="overlay"></div><div class="detail-hero-content"><h1>${p.title}</h1><div class="meta-row"><span><i class="fa-solid fa-location-dot"></i> ${p.address}, ${p.city}</span><span><i class="fa-solid fa-star"></i> ${p.rating}</span><span><i class="fa-solid fa-bed"></i> ${p.bedrooms} Beds</span><span><i class="fa-solid fa-bath"></i> ${p.bathrooms} Baths</span></div></div></div>
+    <div class="detail-two-col">
+      <div class="detail-body">
+        <h2>Overview</h2><p>${p.type} property available for ${p.purpose}. Located in ${p.city}, this spacious residence spans ${p.area.toLocaleString()} sqft with ${p.bedrooms} bedrooms, ${p.bathrooms} bathrooms, and ${p.parking} parking spaces. Built in ${p.yearBuilt}. Ideal for families seeking luxury and convenience.</p>
+        <h2>Amenities</h2><div class="amenities">${p.amenities.map(a=>`<div class="amenity"><i class="fa-solid fa-check"></i> ${a}</div>`).join('')}</div>
+        <h2>Nearby Places</h2><div class="amenities">${Object.entries(p.nearby).map(([k,v])=>`<div class="amenity"><i class="fa-solid fa-location-dot" style="color:var(--gold)"></i> <strong>${k}</strong>: ${v}</div>`).join('')}</div>
+        <h2>Gallery</h2><div class="gallery">${[p.mainImage,...p.gallery].map((img,i)=>`<img src="${img}" alt="Gallery ${i+1}" onclick="openLightbox(this.src)" />`).join('')}</div>
+        <h2>Similar Properties</h2><div class="similar-grid">${(props.filter(x=>x.id!==id&&x.city===p.city).slice(0,3)).map(x=>cardHTML(x)).join('')}</div>
+      </div>
+      <aside>
+        <div class="mortgage-box"><h3>Mortgage Calculator</h3><label style="font-size:.85rem;color:var(--text-dim)">Loan Amount (INR)</label><input id="mLoan" type="number" oninput="runMortgage()" value="8000000" /><label style="font-size:.85rem;color:var(--text-dim);margin-top:6px">Interest Rate %</label><input id="mRate" type="number" oninput="runMortgage()" value="8.5" step="0.1" /><label style="font-size:.85rem;color:var(--text-dim);margin-top:6px">Years</label><input id="mYears" type="number" oninput="runMortgage()" value="20" /><div style="margin-top:14px"><span style="font-size:.85rem;color:var(--text-dim)">Est. EMI</span><div class="result" id="mResult">₹68,871 / mo</div></div></div>
+        <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px"><h3 style="font-family:var(--font-display);font-size:1.1rem;margin-bottom:14px;color:#fff">Contact Owner</h3>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><img src="${p.owner.img||DB.settings().ownerFallbackImage}" alt="${p.owner.name}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid rgba(197,160,89,0.4)" /><div><h4 style="font-family:var(--font-display);font-size:1rem;color:#fff">${p.owner.name}</h4><span style="font-size:.82rem;color:var(--gold)">${p.owner.agency}</span></div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button onclick="openContactModal(${p.id})" class="btn-icon btn-call" style="flex:1"><i class="fa-solid fa-phone"></i> Call</button><button onclick="openContactModal(${p.id})" class="btn-icon btn-wp" style="flex:1"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button><button onclick="openContactModal(${p.id})" class="btn-icon btn-mail" style="flex:1"><i class="fa-solid fa-envelope"></i> Email</button></div>
+        </div>
+        <div style="margin-top:20px;background:linear-gradient(135deg,rgba(197,160,89,0.1),rgba(11,12,21,.8));border:1px solid rgba(197,160,89,0.25);border-radius:var(--radius);padding:24px"><h3 style="font-family:var(--font-display);font-size:1.1rem;margin-bottom:6px;color:#fff">Schedule a Visit</h3><p style="font-size:.85rem;color:var(--text-dim);margin-bottom:14px">Book a direct visit with the owner.</p><button onclick="openContactModal(${p.id})" class="btn-primary" style="width:100%">Book Visit</button></div>
+      </aside>
+    </div>`;
+  navigate('details');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>runMortgage(),100);
+}
+
+function runMortgage(){
+  const loan=+document.getElementById('mLoan').value||0;
+  const rate=+document.getElementById('mRate').value||0;
+  const years=+document.getElementById('mYears').value||0;
+  if(loan<=0||rate<=0||years<=0){document.getElementById('mResult').textContent='Enter values';return;}
+  const r=rate/12/100, n=years*12;
+  const emi=loan*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  document.getElementById('mResult').textContent='₹'+Math.round(emi).toLocaleString()+' / mo';
+}
+
+/* ============================================================
+   CONTACT MODAL
+============================================================ */
+function openContactModal(id){
+  const p=(ls('estate_properties')||[]).find(x=>x.id===id); if(!p)return;
+  const owner=p.owner||{};
+  document.getElementById('contactContent').innerHTML=`
+    <h3>Contact Owner</h3><div class="subtitle">${p.title} — ${p.city}</div>
+    <div class="contact-card"><img src="${owner.img||DB.settings().ownerFallbackImage}" alt="${owner.name}" /><div><h4>${owner.name}</h4><div class="agency">${owner.agency}</div><div style="font-size:.85rem;color:var(--text-dim)">${owner.address}</div></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px"><div style="padding:10px;background:rgba(255,255,255,0.05);border-radius:10px;border:1px solid var(--border);font-size:.9rem"><i class="fa-solid fa-phone" style="color:var(--gold);margin-right:6px"></i>${owner.phone}</div><div style="padding:10px;background:rgba(255,255,255,0.05);border-radius:10px;border:1px solid var(--border);font-size:.9rem"><i class="fa-solid fa-envelope" style="color:var(--gold);margin-right:6px"></i>${owner.email}</div></div>
+    <div class="contact-btns"><a href="tel:+91${owner.phone}" class="btn-icon btn-call"><i class="fa-solid fa-phone"></i> Call Now</a><a href="https://wa.me/91${owner.whatsapp}?text=Hello,%20I%20am%20interested%20in%20your%20property.%20Please%20share%20more%20details." target="_blank" class="btn-icon btn-wp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a><a href="mailto:${owner.email}?subject=Interested%20in%20Property%20${p.id}&body=Hello,%20I%20am%20interested%20in%20your%20property%20${p.title}.%20Please%20share%20more%20details." class="btn-icon btn-mail"><i class="fa-solid fa-envelope"></i> Email Us</a><button onclick="scheduleVisit(${p.id})" class="btn-icon" style="background:rgba(197,160,89,0.2);color:var(--gold);border:1px solid rgba(197,160,89,0.3)"><i class="fa-regular fa-calendar-check"></i> Schedule Visit</button><button onclick="copyNumber('${owner.phone}')" class="btn-icon" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--border)"><i class="fa-regular fa-copy"></i> Copy Number</button><button onclick="shareProperty(${p.id})" class="btn-icon" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--border)"><i class="fa-solid fa-share-nodes"></i> Share</button></div>
+    <div style="margin-top:14px;font-size:.78rem;color:var(--text-ghost)">Office Address: ${owner.agency}, ${owner.address}. Click copy to save number.</div>`;
+  openModal('modalContact');
+}
+function scheduleVisit(id){
+  showToast('Visit scheduled! Our team will confirm shortly.');closeModal('modalContact');
+  if(currentUser){const v=ls('estate_visits')||[];v.push({userId:currentUser.id,propertyId:id,date:new Date().toISOString(),status:'Pending'});ls('estate_visits',v);}
+  // Log enquiry so admin can manage it
+  const arr=ls('estate_contacts')||[];
+  arr.push({id:'C'+Date.now(),name:currentUser?currentUser.name:'Guest Visitor',email:currentUser?currentUser.email:'guest@example.com',phone:currentUser?currentUser.phone:'',propertyId:id,message:'Requested a site visit.',date:new Date().toISOString(),status:'New'});
+  ls('estate_contacts',arr);
+}
+function copyNumber(num){navigator.clipboard?.writeText(num);showToast('Phone number copied: '+num);}
+function shareProperty(id){
+  const p=DB.props().find(x=>x.id===id); if(!p)return;
+  const url=location.href.split('#')[0]+'#property-'+id;
+  if(navigator.share){navigator.share({title:p.title,text:p.title+' — '+p.city,url}).catch(()=>{});}
+  else{navigator.clipboard?.writeText(url);showToast('Property link copied to clipboard');}
+}
+function openModal(id){const m=document.getElementById(id);if(m)m.classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){const m=document.getElementById(id);if(m)m.classList.remove('open');document.body.style.overflow='';}
+function openLightbox(src){if(src){const d=document.createElement('div');d.style='position:fixed;inset:0;background:rgba(11,12,21,0.95);z-index:3000;display:flex;align-items:center;justify-content:center;padding:24px';d.innerHTML=`<img src="${src}" style="max-height:85vh;max-width:90vw;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,0.6)" onclick="this.parentElement.remove()" />`;document.body.appendChild(d);d.onclick=function(e){if(e.target===d)this.remove();};}}
+
+/* ============================================================
+   AUTH
+============================================================ */
+function openLogin(){navigate('login');}
+function doLogin(e){e.preventDefault();const em=document.getElementById('lEmail').value.trim();const pw=document.getElementById('lPass').value;const users=ls('estate_users')||[];const u=users.find(x=>x.email===em&&x.password===pw);if(u){setCurrentUser(u);showToast('Welcome, '+u.name);navigate('dashboard');}else{showToast('Invalid email or password','error');}}
+function doRegister(e){e.preventDefault();const name=document.getElementById('rName').value;const email=document.getElementById('rEmail').value;const phone=document.getElementById('rPhone').value;const pw=document.getElementById('rPass').value;const pw2=document.getElementById('rPass2').value;if(pw!==pw2){showToast('Passwords do not match','error');return;}const users=ls('estate_users')||[];if(users.find(x=>x.email===email)){showToast('Email already registered','error');return;}users.push({id:Date.now(),name,email,phone,password:pw,role:'user',img:'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop',favourites:[],visited:[],created:Date.now()});ls('estate_users',users);showToast('Account created successfully');navigate('login');}
+function logout(){setCurrentUser(null);showToast('Logged out');navigate('home');}
+
+/* ============================================================
+   ADMIN
+============================================================ */
+function doAdminLogin(e){e.preventDefault();const u=document.getElementById('aUser').value;const p=document.getElementById('aPass').value;if(u==='admin'&&p==='admin123'){ls('estate_admin',{loggedIn:true});showToast('Admin logged in — opening control panel');setTimeout(()=>window.location.href='admin.html',700);}else{showToast('Invalid admin credentials','error');}}
+function adminLogout(){ls('estate_admin',{loggedIn:false});showToast('Admin logged out');window.location.href='index.html';}
+function adminTab(tab){document.querySelectorAll('.admin-nav a').forEach(a=>a.classList.remove('active'));document.getElementById('ad-'+tab).classList.add('active');renderAdminContent(tab);}
+function renderAdminDashboard(){if(!ls('estate_admin')||!ls('estate_admin').loggedIn){navigate('admin-login');return;}window.location.href='admin.html';}
+function renderAdminContent(tab){
+  const props=ls('estate_properties')||[]; const users=ls('estate_users')||[]; const contacts=ls('estate_contacts')||[];
+  const main=document.getElementById('adminMain');
+  if(tab==='dashboard'){
+    main.innerHTML=`<div><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">Admin Dashboard</h2><div class="stats-grid"><div class="stat-card"><i class="fa-solid fa-building-columns"></i><h3>${props.length}</h3><p>Properties</p></div><div class="stat-card"><i class="fa-solid fa-users"></i><h3>${users.length}</h3><p>Users</p></div><div class="stat-card"><i class="fa-solid fa-envelope"></i><h3>${contacts.length}</h3><p>Requests</p></div><div class="stat-card"><i class="fa-solid fa-star"></i><h3>4.9</h3><p>Avg Rating</p></div></div><div style="margin-top:24px"><h3 style="font-family:var(--font-display);font-size:1.1rem;color:#fff;margin-bottom:10px">Recent Properties</h3><div class="table-wrap"><table><thead><tr><th>Title</th><th>City</th><th>Price</th><th>Status</th><th>Action</th></tr></thead><tbody>${props.slice(0,8).map(x=>`<tr><td>${x.title}</td><td>${x.city}</td><td>₹${formatPrice(x.price)}</td><td>${x.status}</td><td><a href="#" onclick="adminEditProp(${x.id});return false" class="table-btn btn-sm-amber">Edit</a> <a href="#" onclick="adminDeleteProp(${x.id});return false" class="table-btn btn-sm-red">Delete</a></td></tr>`).join('')}</tbody></table></div></div></div>`;
+  }else if(tab==='properties'){
+    main.innerHTML=`<div><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px"><h2 style="font-family:var(--font-display);font-size:2rem">Manage Properties</h2><a href="#" onclick="adminTab('add');return false" class="btn-primary" style="display:inline-block"><i class="fa-solid fa-plus"></i> Add Property</a></div>
+    <input id="adminPropSearch" oninput="renderAdminContent('properties')" value="${adminPropQuery}" placeholder="Search properties by title, city or owner..." style="width:100%;max-width:420px;padding:12px 16px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;font-family:inherit;margin-bottom:16px;outline:none" />
+    <div class="table-wrap"><table><thead><tr><th>Image</th><th>Title / Owner</th><th>City</th><th>Type</th><th>Purpose</th><th>Price</th><th>Status</th><th>Featured</th><th>Actions</th></tr></thead><tbody>${
+      props.filter(x=>{const q=adminPropQuery.toLowerCase();return !q||x.title.toLowerCase().includes(q)||x.city.toLowerCase().includes(q)||(x.owner?.name||'').toLowerCase().includes(q);})
+      .map(x=>`<tr>
+        <td><img src="${x.mainImage}" style="width:64px;height:64px;object-fit:cover;border-radius:8px" alt=""/></td>
+        <td><strong style="color:#fff">${x.title}</strong><br/><span style="font-size:.78rem;color:var(--text-ghost)">${x.owner?.name||'—'} · ${x.owner?.phone||''}</span></td>
+        <td>${x.city}</td><td>${x.type}</td><td>${x.purpose}</td><td>₹${formatPrice(x.price)}</td>
+        <td><select onchange="setPropStatus(${x.id},this.value)" style="background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;border-radius:6px;padding:5px 8px;font-family:inherit;font-size:.78rem"><option ${x.status==='Available'?'selected':''}>Available</option><option ${x.status==='Sold'?'selected':''}>Sold</option><option ${x.status==='Rented'?'selected':''}>Rented</option><option ${x.status==='Under Construction'?'selected':''}>Under Construction</option></select></td>
+        <td><button onclick="toggleFeature(${x.id})" class="table-btn ${x.featured?'btn-sm-green':'btn-sm-amber'}">${x.featured?'Yes':'No'}</button></td>
+        <td style="white-space:nowrap"><a href="#" onclick="adminEditProp(${x.id});return false" class="table-btn btn-sm-amber">Edit</a> <a href="#" onclick="duplicateProp(${x.id});return false" class="table-btn btn-sm-amber">Copy</a> <a href="#" onclick="adminDeleteProp(${x.id});return false" class="table-btn btn-sm-red">Delete</a></td></tr>`).join('')}</tbody></table></div></div>`;
+    const si=document.getElementById('adminPropSearch'); if(si){si.oninput=e=>{adminPropQuery=e.target.value;renderAdminContent('properties');};si.focus();si.setSelectionRange(si.value.length,si.value.length);}
+  }else if(tab==='add'){
+    main.innerHTML=propertyFormHTML(null);
+    initFormImagePreviews();
+  }else if(tab==='agents'){
+    main.innerHTML=agentsPanelHTML();
+  }else if(tab==='media'){
+    main.innerHTML=mediaPanelHTML();
+  }else if(tab==='users'){
+    main.innerHTML=`<div><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">Users</h2><div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Favourites</th><th>Action</th></tr></thead><tbody>${users.map(u=>`<tr><td>${u.name}</td><td>${u.email}</td><td>${u.phone||''}</td><td>${(ls('estate_favourites')||{})[u.id]?.length||0}</td><td><a href="#" onclick="deleteUser(${u.id});return false" class="table-btn btn-sm-red">Delete</a></td></tr>`).join('')}</tbody></table></div></div>`;
+  }else if(tab==='contacts'){
+    main.innerHTML=`<div><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">Contact Requests</h2><button onclick="exportContactsCSV()" class="btn-secondary" style="margin-bottom:14px">Export CSV</button><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Email</th><th>Property</th><th>Date</th><th>Status</th><th>Action</th></tr></thead><tbody>${contacts.map(c=>`<tr><td>${c.name}</td><td>${c.email}</td><td>${c.propertyId||''}</td><td>${new Date(c.date).toLocaleDateString()}</td><td>${c.status||'New'}</td><td><button onclick="updateContactStatus('${c.id}','Resolved')" class="table-btn btn-sm-green">Resolved</button> <button onclick="deleteContact('${c.id}')" class="table-btn btn-sm-red">Delete</button></td></tr>`).join('')}</tbody></table></div></div>`;
+  }else if(tab==='testimonials'){
+    main.innerHTML=testimonialsPanelHTML();
+  }else if(tab==='settings'){
+    main.innerHTML=settingsPanelHTML();
+    initFormImagePreviews();
+  }else if(tab==='edit'){
+    /* handled by adminEditProp */
+  }
+}
+
+let adminPropQuery="";
+let editingPropId=null;
+
+/* ---------- IMAGE HELPERS (URL or file upload → base64 in LocalStorage) ---------- */
+function fileToDataURL(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});}
+/* Bind a file input to a text field + preview image */
+async function handleImageUpload(input,targetId,previewId){
+  const file=input.files&&input.files[0]; if(!file)return;
+  if(file.size>2.2*1024*1024){showToast('Image too large (max 2MB). Use an image URL instead.','error');input.value='';return;}
+  const data=await fileToDataURL(file);
+  const t=document.getElementById(targetId); if(t)t.value=data;
+  const p=document.getElementById(previewId); if(p)p.src=data;
+  showToast('Image uploaded');
+}
+/* Live preview when URL text changes */
+function initFormImagePreviews(){
+  document.querySelectorAll('[data-preview-for]').forEach(inp=>{
+    const prev=document.getElementById(inp.getAttribute('data-preview-for'));
+    inp.addEventListener('input',()=>{if(prev&&inp.value.trim())prev.src=inp.value.trim();});
+  });
+}
+/* Reusable image field markup */
+function imageField(label,name,value,previewId){
+  return `<div class="form-group full"><label>${label}</label>
+    <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+      <img id="${previewId}" src="${value||'https://via.placeholder.com/120x90?text=No+Image'}" alt="preview" style="width:120px;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--border)" />
+      <div style="flex:1;min-width:220px">
+        <input id="${previewId}_input" name="${name}" value="${value||''}" placeholder="Paste image URL" data-preview-for="${previewId}" />
+        <label class="upload-btn" style="margin-top:8px"><i class="fa-solid fa-upload"></i> Upload from device
+          <input type="file" accept="image/*" hidden onchange="handleImageUpload(this,'${previewId}_input','${previewId}')" />
+        </label>
+      </div>
+    </div></div>`;
+}
+
+/* ---------- FULL PROPERTY FORM (Add + Edit) ---------- */
+function propertyFormHTML(p){
+  const v=(k,d='')=>p&&p[k]!==undefined&&p[k]!==null?String(p[k]).replace(/"/g,'&quot;'):d;
+  const o=(p&&p.owner)||{};
+  const ov=(k,d='')=>o[k]!==undefined?String(o[k]).replace(/"/g,'&quot;'):d;
+  const types=["Apartment","Flat","Villa","Independent House","House","Bungalow","Farm House","Office","Commercial","Shop","Warehouse","Land","Plot"];
+  const gal=(p&&p.gallery)||[];
+  return `<div><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">${p?'Edit':'Add'} Property</h2>
+  <p style="color:var(--text-dim);margin-bottom:18px">Control every detail — images, pricing, features and owner contact information.</p>
+  <form onsubmit="adminSaveProp(event)" class="admin-form">
+    <input type="hidden" name="id" value="${p?p.id:''}" />
+
+    <h3 class="form-section-title"><i class="fa-solid fa-circle-info"></i> Basic Information</h3>
+    <div class="form-row"><div class="form-group"><label>Title *</label><input name="title" value="${v('title')}" required /></div>
+    <div class="form-group"><label>Price (₹) *</label><input name="price" type="number" value="${v('price')}" required /></div></div>
+    <div class="form-row"><div class="form-group"><label>Property Type</label><select name="type">${types.map(t=>`<option ${v('type')===t?'selected':''}>${t}</option>`).join('')}</select></div>
+    <div class="form-group"><label>Purpose</label><select name="purpose"><option ${v('purpose')==='Buy'?'selected':''}>Buy</option><option ${v('purpose')==='Rent'?'selected':''}>Rent</option></select></div></div>
+    <div class="form-row"><div class="form-group"><label>Status</label><select name="status"><option ${v('status')==='Available'?'selected':''}>Available</option><option ${v('status')==='Sold'?'selected':''}>Sold</option><option ${v('status')==='Rented'?'selected':''}>Rented</option><option ${v('status')==='Under Construction'?'selected':''}>Under Construction</option></select></div>
+    <div class="form-group"><label>Featured</label><select name="featured"><option value="yes" ${p&&p.featured?'selected':''}>Yes</option><option value="no" ${!p||!p.featured?'selected':''}>No</option></select></div></div>
+    <div class="form-group full"><label>Description</label><textarea name="description" rows="3">${p?(p.description||''):''}</textarea></div>
+
+    <h3 class="form-section-title"><i class="fa-solid fa-images"></i> Images &amp; Media</h3>
+    ${imageField('Main Image','mainImage',v('mainImage'),'prevMain')}
+    ${imageField('Gallery Image 1','g1',gal[0]||'','prevG1')}
+    ${imageField('Gallery Image 2','g2',gal[1]||'','prevG2')}
+    ${imageField('Gallery Image 3','g3',gal[2]||'','prevG3')}
+    <div class="form-row"><div class="form-group"><label>Video URL</label><input name="videoUrl" value="${v('videoUrl')}" placeholder="https://youtube.com/..." /></div>
+    <div class="form-group"><label>Virtual Tour URL</label><input name="tourUrl" value="${v('tourUrl')}" /></div></div>
+    <div class="form-group full"><label>Google Map Link</label><input name="mapLink" value="${v('mapLink')}" /></div>
+
+    <h3 class="form-section-title"><i class="fa-solid fa-location-dot"></i> Location</h3>
+    <div class="form-row"><div class="form-group"><label>Address</label><input name="address" value="${v('address')}" /></div>
+    <div class="form-group"><label>City</label><input name="city" value="${v('city')}" required /></div></div>
+    <div class="form-row"><div class="form-group"><label>State</label><input name="state" value="${v('state')}" /></div>
+    <div class="form-group"><label>Country</label><input name="country" value="${v('country','India')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Zip Code</label><input name="zip" value="${v('zip')}" /></div>
+    <div class="form-group"><label>Latitude / Longitude</label><input name="latlong" value="${v('lat')},${v('long')}" /></div></div>
+
+    <h3 class="form-section-title"><i class="fa-solid fa-house-chimney"></i> Property Features</h3>
+    <div class="form-row"><div class="form-group"><label>Bedrooms</label><input name="bedrooms" type="number" value="${v('bedrooms','1')}" /></div>
+    <div class="form-group"><label>Bathrooms</label><input name="bathrooms" type="number" value="${v('bathrooms','1')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Kitchen</label><input name="kitchen" type="number" value="${v('kitchen','1')}" /></div>
+    <div class="form-group"><label>Balcony</label><input name="balcony" type="number" value="${v('balcony','1')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Parking</label><input name="parking" type="number" value="${v('parking','1')}" /></div>
+    <div class="form-group"><label>Floor</label><input name="floor" value="${v('floor','Ground')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Area (sqft)</label><input name="area" type="number" value="${v('area','1000')}" /></div>
+    <div class="form-group"><label>Year Built</label><input name="yearBuilt" type="number" value="${v('yearBuilt','2022')}" /></div></div>
+    <div class="form-group full"><label>Amenities (comma separated)</label><input name="amenities" value="${p?(p.amenities||[]).join(', '):'Gym, Pool, Parking, Security'}" /></div>
+    <div class="form-row"><div class="form-group"><label>Nearby School</label><input name="nSchool" value="${p?(p.nearby?.school||''):''}" /></div>
+    <div class="form-group"><label>Nearby Hospital</label><input name="nHospital" value="${p?(p.nearby?.hospital||''):''}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Nearby Metro</label><input name="nMetro" value="${p?(p.nearby?.metro||''):''}" /></div>
+    <div class="form-group"><label>Nearby Market</label><input name="nMarket" value="${p?(p.nearby?.market||''):''}" /></div></div>
+
+    <h3 class="form-section-title"><i class="fa-solid fa-user-tie"></i> Owner &amp; Contact Details</h3>
+    ${imageField('Owner Photo','ownerImg',o.img||'','prevOwner')}
+    <div class="form-row"><div class="form-group"><label>Owner Name</label><input name="ownerName" value="${ov('name')}" /></div>
+    <div class="form-group"><label>Agency Name</label><input name="ownerAgency" value="${ov('agency')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Owner Phone (Call)</label><input name="ownerPhone" value="${ov('phone')}" /></div>
+    <div class="form-group"><label>WhatsApp Number</label><input name="ownerWhatsapp" value="${ov('whatsapp')}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Owner Email</label><input name="ownerEmail" type="email" value="${ov('email')}" /></div>
+    <div class="form-group"><label>Office Address</label><input name="ownerAddress" value="${ov('address')}" /></div></div>
+
+    <div style="display:flex;gap:12px;margin-top:22px;flex-wrap:wrap">
+      <button type="submit" class="btn-primary" style="border:none;padding:14px 30px;border-radius:10px;font-weight:700;cursor:pointer"><i class="fa-solid fa-floppy-disk"></i> ${p?'Update':'Save'} Property</button>
+      <button type="button" onclick="adminTab('properties')" class="btn-secondary" style="padding:14px 30px;border-radius:10px;cursor:pointer">Cancel</button>
+      ${p?`<button type="button" onclick="duplicateProp(${p.id})" class="btn-secondary" style="padding:14px 24px;border-radius:10px;cursor:pointer"><i class="fa-regular fa-copy"></i> Duplicate</button>`:''}
+    </div>
+  </form></div>`;
+}
+
+function adminEditProp(id){
+  const p=DB.props().find(x=>x.id===id); if(!p)return;
+  editingPropId=id;
+  document.querySelectorAll('.admin-nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('ad-props').classList.add('active');
+  document.getElementById('adminMain').innerHTML=propertyFormHTML(p);
+  initFormImagePreviews();
+  window.scrollTo({top:200,behavior:'smooth'});
+}
+function duplicateProp(id){
+  const props=DB.props(); const p=props.find(x=>x.id===id); if(!p)return;
+  const copy=JSON.parse(JSON.stringify(p)); copy.id=Date.now(); copy.title=p.title+' (Copy)'; copy.featured=false; copy.created=Date.now();
+  props.unshift(copy); DB.saveProps(props); showToast('Property duplicated'); adminTab('properties');
+}
+function setPropStatus(id,status){
+  const props=DB.props().map(x=>x.id===id?{...x,status}:x); DB.saveProps(props);
+  showToast('Status set to '+status); refreshPublicViews();
+}
+function adminDeleteProp(id){if(confirm('Delete property?')){const props=ls('estate_properties').filter(x=>x.id!==id);ls('estate_properties',props);showToast('Property deleted');renderAdminContent('properties');}}
+/* ---------- SAVE (create or update) ---------- */
+function adminSaveProp(e){
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  const g=k=>(fd.get(k)||'').toString().trim();
+  const props=DB.props();
+  const idVal=g('id');
+  const [lat,long]=(g('latlong')||'0,0').split(',');
+  const gallery=[g('g1'),g('g2'),g('g3')].filter(Boolean);
+  const record={
+    title:g('title'), description:g('description'), type:g('type'), purpose:g('purpose'),
+    status:g('status'), featured:g('featured')==='yes', price:+g('price')||0,
+    mainImage:g('mainImage')||IMAGES[0], gallery:gallery.length?gallery:[IMAGES[1],IMAGES[2]],
+    videoUrl:g('videoUrl'), tourUrl:g('tourUrl'), mapLink:g('mapLink'),
+    address:g('address')||g('city'), city:g('city'), state:g('state')||stateFor(g('city')),
+    country:g('country'), zip:g('zip'), lat:parseFloat(lat)||0, long:parseFloat(long)||0,
+    location:`${g('city')}, ${g('state')||stateFor(g('city'))}`,
+    bedrooms:+g('bedrooms')||0, bathrooms:+g('bathrooms')||0, kitchen:+g('kitchen')||0,
+    balcony:+g('balcony')||0, parking:+g('parking')||0, floor:g('floor'),
+    area:+g('area')||0, yearBuilt:+g('yearBuilt')||2022,
+    amenities:g('amenities').split(',').map(s=>s.trim()).filter(Boolean),
+    nearby:{school:g('nSchool'),hospital:g('nHospital'),metro:g('nMetro'),market:g('nMarket')},
+    owner:{name:g('ownerName'),agency:g('ownerAgency'),phone:g('ownerPhone'),whatsapp:g('ownerWhatsapp')||g('ownerPhone'),email:g('ownerEmail'),address:g('ownerAddress'),img:g('ownerImg')||DB.settings().ownerFallbackImage}
+  };
+  if(idVal){ // UPDATE
+    const i=props.findIndex(x=>String(x.id)===String(idVal));
+    if(i>-1){props[i]={...props[i],...record};DB.saveProps(props);showToast('Property updated successfully');}
+  }else{ // CREATE
+    props.unshift({id:Date.now(),rating:4.6,views:0,created:Date.now(),...record});
+    DB.saveProps(props); showToast('Property added successfully');
+  }
+  editingPropId=null; refreshPublicViews(); adminTab('properties');
+}
+function toggleFeature(id){const props=DB.props().map(x=>x.id===id?{...x,featured:!x.featured}:x);DB.saveProps(props);showToast('Featured status updated');refreshPublicViews();renderAdminContent('properties');}
+
+/* ---------- AGENTS PANEL ---------- */
+function agentsPanelHTML(){
+  const ags=DB.agents();
+  return `<div><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px"><h2 style="font-family:var(--font-display);font-size:2rem">Manage Agents</h2><button onclick="addAgent()" class="btn-primary" style="border:none;padding:12px 22px;border-radius:10px;font-weight:700;cursor:pointer"><i class="fa-solid fa-plus"></i> Add Agent</button></div>
+  <div class="grid-3">${ags.map((a,i)=>`<div class="card" style="padding:20px"><form onsubmit="saveAgent(event,${i})">
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px"><img id="agImg${i}" src="${a.img}" alt="" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid rgba(197,160,89,.4)" />
+    <div style="flex:1"><input id="agImg${i}_input" name="img" value="${a.img}" data-preview-for="agImg${i}" oninput="document.getElementById('agImg${i}').src=this.value" placeholder="Photo URL" style="width:100%;padding:8px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;font-family:inherit;font-size:.8rem" />
+    <label class="upload-btn" style="margin-top:6px;font-size:.72rem"><i class="fa-solid fa-upload"></i> Upload<input type="file" accept="image/*" hidden onchange="handleImageUpload(this,'agImg${i}_input','agImg${i}')" /></label></div></div>
+    <div class="form-group"><label>Name</label><input name="name" value="${a.name}" /></div>
+    <div class="form-group"><label>Role</label><input name="role" value="${a.role||''}" /></div>
+    <div class="form-group"><label>Phone</label><input name="phone" value="${a.phone||'+91 98765 43210'}" /></div>
+    <div class="form-group"><label>WhatsApp</label><input name="whatsapp" value="${a.whatsapp||'919876543210'}" /></div>
+    <div class="form-group"><label>Email</label><input name="email" value="${a.email||'agent@luxeliving.in'}" /></div>
+    <div class="form-group"><label>Bio</label><textarea name="bio" rows="2">${a.bio||''}</textarea></div>
+    <div style="display:flex;gap:8px"><button type="submit" class="table-btn btn-sm-green" style="padding:9px 16px">Save</button><button type="button" onclick="deleteAgent(${i})" class="table-btn btn-sm-red" style="padding:9px 16px">Delete</button></div>
+  </form></div>`).join('')}</div></div>`;
+}
+function saveAgent(e,i){e.preventDefault();const fd=new FormData(e.target);const ags=DB.agents();ags[i]={...ags[i],name:fd.get('name'),role:fd.get('role'),phone:fd.get('phone'),whatsapp:fd.get('whatsapp'),email:fd.get('email'),bio:fd.get('bio'),img:fd.get('img')};DB.saveAgents(ags);showToast('Agent updated');refreshPublicViews();}
+function addAgent(){const ags=DB.agents();ags.push({name:'New Agent',role:'Property Advisor',bio:'Add a short bio here.',phone:'+91 90000 00000',whatsapp:'919000000000',email:'new@luxeliving.in',img:'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop'});DB.saveAgents(ags);showToast('Agent added');renderAdminContent('agents');}
+function deleteAgent(i){if(!confirm('Delete this agent?'))return;const ags=DB.agents();ags.splice(i,1);DB.saveAgents(ags);showToast('Agent deleted');refreshPublicViews();renderAdminContent('agents');}
+
+/* ---------- MEDIA / IMAGE MANAGER ---------- */
+function mediaPanelHTML(){
+  const props=DB.props();
+  const s=DB.settings();
+  return `<div><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">Media &amp; Image Manager</h2>
+  <p style="color:var(--text-dim);margin-bottom:20px">Change any image on the website — hero banner, logo and every property photo.</p>
+  <div class="card" style="padding:24px;margin-bottom:24px"><h3 class="form-section-title"><i class="fa-solid fa-panorama"></i> Global Images</h3>
+  <form onsubmit="saveGlobalImages(event)">
+    ${imageField('Hero Banner Image','heroImage',s.heroImage,'prevHero')}
+    ${imageField('Site Logo Image (optional — leave blank for text logo)','logoImage',s.logoImage,'prevLogo')}
+    ${imageField('Default Owner Photo','ownerFallbackImage',s.ownerFallbackImage,'prevOwnerFallback')}
+    <button type="submit" class="btn-primary" style="border:none;padding:12px 26px;border-radius:10px;font-weight:700;cursor:pointer">Save Global Images</button>
+  </form></div>
+  <h3 class="form-section-title"><i class="fa-solid fa-building"></i> Property Images (${props.length})</h3>
+  <div class="media-grid">${props.map(p=>`<div class="media-item"><img id="mimg${p.id}" src="${p.mainImage}" alt="${p.title}" />
+    <div style="padding:10px"><div style="font-size:.8rem;color:#fff;font-weight:600;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.title}</div>
+    <input id="mimg${p.id}_input" value="${p.mainImage}" oninput="document.getElementById('mimg${p.id}').src=this.value" style="width:100%;padding:6px;border-radius:6px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;font-size:.72rem;font-family:inherit" />
+    <div style="display:flex;gap:6px;margin-top:6px"><label class="upload-btn" style="font-size:.7rem;flex:1"><i class="fa-solid fa-upload"></i> Upload<input type="file" accept="image/*" hidden onchange="handleImageUpload(this,'mimg${p.id}_input','mimg${p.id}')" /></label>
+    <button onclick="savePropImage(${p.id})" class="table-btn btn-sm-green" style="font-size:.7rem">Save</button></div></div></div>`).join('')}</div></div>`;
+}
+function savePropImage(id){const val=document.getElementById('mimg'+id+'_input').value.trim();const props=DB.props().map(x=>x.id===id?{...x,mainImage:val}:x);DB.saveProps(props);showToast('Property image updated');refreshPublicViews();}
+function saveGlobalImages(e){e.preventDefault();const fd=new FormData(e.target);const s=DB.settings();s.heroImage=fd.get('heroImage');s.logoImage=fd.get('logoImage');s.ownerFallbackImage=fd.get('ownerFallbackImage');DB.saveSettings(s);applySettings();showToast('Global images updated');}
+
+/* ---------- TESTIMONIALS PANEL ---------- */
+function testimonialsPanelHTML(){
+  const ts=DB.testis();
+  return `<div><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px"><h2 style="font-family:var(--font-display);font-size:2rem">Testimonials</h2><button onclick="addTestimonial()" class="btn-primary" style="border:none;padding:12px 22px;border-radius:10px;font-weight:700;cursor:pointer"><i class="fa-solid fa-plus"></i> Add</button></div>
+  <div class="grid-3">${ts.map((t,i)=>`<div class="card" style="padding:20px"><form onsubmit="saveTestimonial(event,${i})">
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px"><img id="tImg${i}" src="${t.img}" style="width:56px;height:56px;border-radius:50%;object-fit:cover" alt=""/>
+    <div style="flex:1"><input id="tImg${i}_input" name="img" value="${t.img}" oninput="document.getElementById('tImg${i}').src=this.value" style="width:100%;padding:7px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid var(--border);color:#fff;font-size:.75rem;font-family:inherit" /><label class="upload-btn" style="margin-top:5px;font-size:.7rem"><i class="fa-solid fa-upload"></i> Upload<input type="file" accept="image/*" hidden onchange="handleImageUpload(this,'tImg${i}_input','tImg${i}')" /></label></div></div>
+    <div class="form-group"><label>Name</label><input name="name" value="${t.name}" /></div>
+    <div class="form-group"><label>City</label><input name="city" value="${t.city||''}" /></div>
+    <div class="form-group"><label>Rating (1-5)</label><input name="rating" type="number" min="1" max="5" value="${t.rating}" /></div>
+    <div class="form-group"><label>Message</label><textarea name="text" rows="3">${t.text}</textarea></div>
+    <div style="display:flex;gap:8px"><button type="submit" class="table-btn btn-sm-green" style="padding:9px 16px">Save</button><button type="button" onclick="deleteTestimonial(${i})" class="table-btn btn-sm-red" style="padding:9px 16px">Delete</button></div>
+  </form></div>`).join('')}</div></div>`;
+}
+function saveTestimonial(e,i){e.preventDefault();const fd=new FormData(e.target);const ts=DB.testis();ts[i]={name:fd.get('name'),city:fd.get('city'),rating:+fd.get('rating'),text:fd.get('text'),img:fd.get('img')};DB.saveTestis(ts);showToast('Testimonial saved');refreshPublicViews();}
+function addTestimonial(){const ts=DB.testis();ts.push({name:'New Client',city:'Mumbai',rating:5,text:'Write the client feedback here.',img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop'});DB.saveTestis(ts);showToast('Testimonial added');renderAdminContent('testimonials');}
+
+/* ---------- SITE SETTINGS PANEL ---------- */
+function settingsPanelHTML(){
+  const s=DB.settings();
+  return `<div><h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:6px">Website Settings</h2>
+  <p style="color:var(--text-dim);margin-bottom:18px">These details appear in the navbar, footer, contact page and WhatsApp button.</p>
+  <form onsubmit="saveSiteSettings(event)" class="admin-form">
+    <h3 class="form-section-title"><i class="fa-solid fa-signature"></i> Branding</h3>
+    <div class="form-row"><div class="form-group"><label>Website Name</label><input name="siteName" value="${s.siteName}" /></div>
+    <div class="form-group"><label>Logo Text</label><input name="logoText" value="${s.logoText||''}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>Logo Accent Text</label><input name="logoAccent" value="${s.logoAccent||''}" /></div>
+    <div class="form-group"><label>Hero Title</label><input name="heroTitle" value="${(s.heroTitle||'').replace(/"/g,'&quot;')}" /></div></div>
+    <div class="form-group full"><label>Hero Subtitle</label><textarea name="heroSubtitle" rows="2">${s.heroSubtitle||''}</textarea></div>
+    ${imageField('Logo Image','logoImage',s.logoImage,'prevLogo2')}
+    ${imageField('Hero Banner','heroImage',s.heroImage,'prevHero2')}
+
+    <h3 class="form-section-title"><i class="fa-solid fa-address-book"></i> Contact Details</h3>
+    <div class="form-row"><div class="form-group"><label>Email</label><input name="email" value="${s.email}" /></div>
+    <div class="form-group"><label>Phone</label><input name="phone" value="${s.phone}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>WhatsApp Number (with country code)</label><input name="whatsapp" value="${s.whatsapp}" /></div>
+    <div class="form-group"><label>Office Address</label><input name="address" value="${(s.address||'').replace(/"/g,'&quot;')}" /></div></div>
+    <div class="form-group full"><label>Footer About Text</label><textarea name="footerAbout" rows="2">${s.footerAbout||''}</textarea></div>
+
+    <h3 class="form-section-title"><i class="fa-solid fa-share-nodes"></i> Social Links</h3>
+    <div class="form-row"><div class="form-group"><label>Facebook</label><input name="facebook" value="${s.facebook}" /></div>
+    <div class="form-group"><label>Instagram</label><input name="instagram" value="${s.instagram}" /></div></div>
+    <div class="form-row"><div class="form-group"><label>LinkedIn</label><input name="linkedin" value="${s.linkedin}" /></div>
+    <div class="form-group"><label>Twitter / X</label><input name="twitter" value="${s.twitter}" /></div></div>
+
+    <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap"><button type="submit" class="btn-primary" style="border:none;padding:14px 30px;border-radius:10px;font-weight:700;cursor:pointer"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
+    <button type="button" onclick="resetDatabase()" class="btn-secondary" style="padding:14px 26px;border-radius:10px;cursor:pointer"><i class="fa-solid fa-rotate-left"></i> Reset Demo Data</button></div>
+  </form></div>`;
+}
+function resetDatabase(){if(!confirm('Reset ALL data back to demo defaults?'))return;['estate_properties','estate_agents','estate_testimonials','estate_settings','estate_contacts','estate_favourites'].forEach(k=>localStorage.removeItem(k));initDB();applySettings();showToast('Demo data restored');adminTab('dashboard');}
+
+/* ---------- Refresh public pages after admin changes ---------- */
+function refreshPublicViews(){
+  try{ renderHomeSections(); if(document.getElementById('page-listings').classList.contains('active'))filterProperties(); applySettings(); }catch(err){}
+}
+function deleteUser(id){if(confirm('Delete user?')){let users=ls('estate_users').filter(x=>x.id!==id);ls('estate_users',users);showToast('User deleted');renderAdminContent('users');}}
+function exportContactsCSV(){const c=ls('estate_contacts')||[];const rows=[['Name','Email','Property','Date','Status'],...c.map(x=>[x.name,x.email,x.propertyId||'',new Date(x.date).toISOString(),x.status||'New'])];const blob=new Blob([rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n')],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='contacts.csv';a.click();showToast('CSV exported');}
+function updateContactStatus(id,status){let c=ls('estate_contacts').map(x=>x.id===id?{...x,status}:x);ls('estate_contacts',c);showToast('Status updated');renderAdminContent('contacts');}
+function deleteContact(id){let c=ls('estate_contacts').filter(x=>x.id!==id);ls('estate_contacts',c);showToast('Deleted');renderAdminContent('contacts');}
+function deleteTestimonial(i){if(!confirm('Delete testimonial?'))return;const ts=DB.testis();ts.splice(i,1);DB.saveTestis(ts);showToast('Testimonial removed');refreshPublicViews();renderAdminContent('testimonials');}
+function saveSiteSettings(e){
+  e.preventDefault();
+  const fd=new FormData(e.target); const s=DB.settings();
+  ['siteName','logoText','logoAccent','logoImage','heroTitle','heroSubtitle','heroImage','email','phone','whatsapp','address','footerAbout','facebook','instagram','linkedin','twitter']
+    .forEach(k=>{ if(fd.get(k)!==null) s[k]=fd.get(k); });
+  DB.saveSettings(s); applySettings(); showToast('Website settings saved & applied');
+}
+
+/* ============================================================
+   USER PROFILE / DASHBOARD
+============================================================ */
+function setDashName(){const u=getCurrentUser();if(u){document.getElementById('dashName').textContent=u.name;}}
+function renderProfile(){if(!currentUser)return;const u=currentUser;document.getElementById('profName').textContent=u.name;document.getElementById('profEmail').textContent=u.email;document.getElementById('profPhone').textContent=u.phone||'';document.getElementById('profImg').src=u.img||'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop';document.getElementById('pName').value=u.name;document.getElementById('pPhone').value=u.phone||'';document.getElementById('pEmail').value=u.email;document.getElementById('pImgUrl').value=u.img||'';}
+function updateProfile(e){e.preventDefault();if(!currentUser)return;currentUser.name=document.getElementById('pName').value;currentUser.phone=document.getElementById('pPhone').value;currentUser.email=document.getElementById('pEmail').value;currentUser.img=document.getElementById('pImgUrl').value;const users=ls('estate_users').map(x=>x.id===currentUser.id?currentUser:x);ls('estate_users',users);setCurrentUser(currentUser);showToast('Profile updated');renderProfile();setDashName();}
+function changePassword(e){e.preventDefault();const old=document.getElementById('cpOld').value;const nw=document.getElementById('cpNew').value;if(!currentUser||currentUser.password!==old){showToast('Current password incorrect','error');return;}currentUser.password=nw;const users=ls('estate_users').map(x=>x.id===currentUser.id?currentUser:x);ls('estate_users',users);showToast('Password changed');e.target.reset();}
+function showDashTab(tab){document.querySelectorAll('.dash-nav a').forEach(a=>a.classList.remove('active'));document.getElementById('tab-'+tab).classList.add('active');['overview','favourites','recent','visits','settings'].forEach(t=>document.getElementById('dash-'+t).style.display=t===tab?'block':'none');if(tab==='favourites')renderDashFav();if(tab==='recent')renderDashRecent();if(tab==='visits')renderDashVisits();if(tab==='overview')renderDashOverview();}
+function renderDashOverview(){if(!currentUser)return;const u=currentUser;const props=(ls('estate_properties')||[]).filter(p=>p.featured).slice(0,4);document.getElementById('dashCards').innerHTML=`<div><h3 style="font-family:var(--font-display);font-size:1.2rem;color:#fff;margin-bottom:12px">Featured For You</h3><div style="display:grid;gap:12px">${props.map(p=>`<a href="#" onclick="showProperty(${p.id});return false" style="display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;text-decoration:none;align-items:center"><img src="${p.mainImage}" style="width:70px;height:70px;object-fit:cover;border-radius:8px" alt=""/><div><h4 style="font-size:.9rem;color:#fff;font-weight:600">${p.title}</h4><p style="font-size:.8rem;color:var(--text-dim)">${p.city} · ${formatPrice(p.price)}</p></div></a>`).join('')}</div></div>`;}
+function renderDashFav(){if(!currentUser)return;const f=ls('estate_favourites')||{};const ids=f[currentUser.id]||[];const props=(ls('estate_properties')||[]).filter(p=>ids.includes(p.id));document.getElementById('dashFavList').innerHTML=props.length?props.map(p=>cardHTML(p)).join(''):`<div style="color:var(--text-dim);padding:20px">No favourites yet.</div>`;}
+function renderDashRecent(){const ids=[1,3,7];const props=(ls('estate_properties')||[]).filter(p=>ids.includes(p.id));document.getElementById('dashRecentList').innerHTML=props.map(p=>cardHTML(p)).join('');}
+function renderDashVisits(){const v=ls('estate_visits')||[];const mine=v.filter(x=>x.userId===currentUser?.id);document.getElementById('dashVisitsBody').innerHTML=mine.map(x=>`<tr><td><strong style="color:#fff">Property ${x.propertyId}</strong></td><td>${new Date(x.date).toLocaleDateString()}</td><td>10:00 AM</td><td><span class="badge">${x.status||'Pending'}</span></td></tr>`).join('')||'<tr><td colspan="4" style="color:var(--text-dim)">No visits scheduled.</td></tr>';}
+function saveSettings(e){e.preventDefault();showToast('Preferences saved');}
+
+/* ============================================================
+   CONTACT / NEWSLETTER / TOAST
+============================================================ */
+function sendContact(e){e.preventDefault();const c={name:document.getElementById('cName').value,email:document.getElementById('cEmail').value,phone:document.getElementById('cPhone').value,message:document.getElementById('cMsg').value,date:new Date().toISOString(),status:'New'};const arr=ls('estate_contacts')||[];arr.push(c);ls('estate_contacts',arr);showToast('Message sent successfully');e.target.reset();}
+function subscribeNews(e){e.preventDefault();showToast('Subscribed to newsletter');e.target.reset();}
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');const m=document.getElementById('toastMsg');m.textContent=msg;t.className='toast show '+(type==='error'?'error':type==='success'?'success':'');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+/* ============================================================
+   SCROLL / EVENT BINDING
+============================================================ */
+window.addEventListener('scroll',()=>{
+  const btn=document.getElementById('scrollTop');
+  if(window.scrollY>600)btn.classList.add('visible');else btn.classList.remove('visible');
+});
+
+function init(){
+  initDB();
+  applySettings();
+  // Restore user if stored
+  const uid=ls('estate_current_user_id');
+  if(uid){currentUser=getUser(uid);}
+  renderHomeSections();
+  // If admin logged in from previous session
+  if(ls('estate_admin')&&ls('estate_admin').loggedIn){navigate('admin');}
+  // Live-sync: when admin.html (separate tab) saves changes to localStorage,
+  // refresh the public pages so the new images/text/prices appear instantly.
+  window.addEventListener('storage',(e)=>{
+    if(e.key&&e.key.startsWith('estate_')){
+      applySettings();
+      renderHomeSections();
+      if(document.getElementById('page-listings').classList.contains('active'))filterProperties();
+      if(document.getElementById('page-details').classList.contains('active')&&window.__detailId)showProperty(window.__detailId);
+    }
+  });
+}
+
+// Initialize on load
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+</script>
+
+</body>
+</html>
