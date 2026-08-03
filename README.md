@@ -395,6 +395,6 @@ This project is intended for educational, portfolio, and demonstration purposes.
 
 ## 👨‍💻 Developed By
 
-**Dream Ledger Team**
+**ROUNAK KUMAR**
 
 *A Premium Real Estate Portal built with HTML, CSS, and Vanilla JavaScript.*
